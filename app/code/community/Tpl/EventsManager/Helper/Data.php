@@ -52,7 +52,8 @@ class Tpl_EventsManager_Helper_Data extends Mage_Core_Helper_Abstract
         $jsget= $head->getCssJsHtml();//all magento js/css store in $jsget variable
         //echo $jsget;
         $bootstrap= strpos($jsget, 'bootstrap.css');
-        if(!$bootstrap){
+        $bootstrap_min = strpos($jsget, 'bootstrap.min.css'); 
+        if( !$bootstrap && !$bootstrap_min ){
             return 'css/tpl_eventsmanager/bootstrap/css/bootstrap.css';
         }
         else{
