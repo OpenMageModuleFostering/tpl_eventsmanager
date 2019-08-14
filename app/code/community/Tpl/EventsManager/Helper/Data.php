@@ -42,4 +42,22 @@ class Tpl_EventsManager_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $converted;
     }
+    
+    
+    /* function to check if there already exist bootstrap if not the return file path */
+    public function checkBootstrapExist()
+    {
+        $layout = Mage::app()->getLayout();
+        $head= $layout->getBlock('head');
+        $jsget= $head->getCssJsHtml();//all magento js/css store in $jsget variable
+        //echo $jsget;
+        $bootstrap= strpos($jsget, 'bootstrap.css');
+        if(!$bootstrap){
+            return 'css/tpl_eventsmanager/bootstrap/css/bootstrap.css';
+        }
+        else{
+            return '';
+        }
+    
+    }
 }
