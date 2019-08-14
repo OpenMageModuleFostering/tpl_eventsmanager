@@ -22,34 +22,47 @@
  * @author      TPL
  */
 ?>
-<?php $_notification_events = $this->getEvents();
-if(count($_notification_events) && count(Mage::getSingleton('core/session')->getData('closedevents'))!=count($_notification_events)):
-?>
-<ul class="messages">
-    <li class="success-msg">
-        <ul>
-            <?php
-            foreach ($_notification_events as $event) {
-                $temp = array();
-                if (!empty(Mage::getSingleton('core/session')->getData('closedevents'))) {
-                    $temp = Mage::getSingleton('core/session')->getData('closedevents');
-                }
-                // not in
-                if (!in_array($event->getEntityId(), $temp)) {
-                    ?>
+<?php
+$_notification_events = $this->getEvents();
+if (count($_notification_events) && count(Mage::getSingleton('core/session')->getData('closedevents')) != count($_notification_events)):
 
-                    <li>
-                        <span><?php
-                            echo $event->getEventName();
-                            ?></span>
-                        <span style="float: right;" ><a href="<?php echo $event->getEventUrl() ?>">View Detail</a>
-                            &nbsp;&nbsp; <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>index.php/tpl_eventsmanager/event/closenotification?eventid=<?php echo $event->getEntityId(); ?>"> X</a>
-                        </span>
-                    </li>
-                <?php } ?>
+    foreach ($_notification_events as $event) {
+        ?>
 
-            <?php } ?>
+        <?php
+        $temp = array();
+        if (!empty(Mage::getSingleton('core/session')->getData('closedevents'))) {
+            $temp = Mage::getSingleton('core/session')->getData('closedevents');
+        }
+        // not in
+        if (!in_array($event->getEntityId(), $temp)) {
+            ?>
+            <ul class="messages">
+                <li class="notice-msg" >
+                    <ul>
+                        <li style="overflow: auto;">
+                            <a style="text-decoration: none;" href="<?php echo $event->getEventUrl() ?>">
+                            <span style=" display: inline-block;"><?php
+            echo $event->getEventName();
+            ?></span></a>
+                            <span class="actions" style="float: right;  display: inline-block;  top: 0px; position: inherit;" ><a  id="notification-button" href="<?php echo $event->getEventUrl() ?>"><button style="padding: 1px 15px;"  class="button"><span><span>View Detail</span></span></button></a>
+                                &nbsp; <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>index.php/tpl_eventsmanager/event/closenotification?eventid=<?php echo $event->getEntityId(); ?>"><img style="float: right; margin-top: 3px;" height="15" width="15"   src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/close-button.svg'; ?> " /></a>
+                            </span>
+                        </li>
+                    <?php } ?>
+
+                    <?php ?>
+                </ul>
+            </li>
         </ul>
-    </li>
-</ul>
-<?php endif;?>
+    <?php }
+
+endif;
+?>
+<!--<style>
+    @media only screen and (max-width: 1000px) { 
+        #notification-button { 
+            display: none; 
+        } 
+    }
+</style>-->

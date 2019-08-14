@@ -22,114 +22,91 @@
  * @author      TPL
  */
 ?>
-<?php //$_event = $this->getCurrentEvent();
-?>
-<?php //if ($_event) :
-?>
-<!--    <div class="event-widget-link">
-        <a href="<?php //echo $_event->getEventUrl()      ?>"><?php //echo $_event->getEventName()      ?></a>
-    </div>-->
+
 <?php // widget displays upcomming and not expired events   ?>
+<style>
+    .upcomming-event-list{
+        margin-top: 10px;
+        max-height: 300px;
+        overflow-x: scroll;
+        overflow-x: auto;
+    }
+    .upcomming-event-thumbnail {
+        float: left;
+        width: 100%;
+        margin-right: 6px;
+        margin-bottom: 2px;
+
+    }
+    .upcomming-event-list img{
+        max-width: 85px;
+        min-width: 5px;
+/*        padding: 5px;*/
+        margin: 5px; 
+    }
+    .upcomming-event-list-item{
+        width: 100%;
+        padding-bottom: 12px;
+        overflow: hidden;
+        padding-left: 5px;
+padding-right: 2px;
+    }
+
+</style>
+
 <div class="block">
     <div class="block-title">
         <strong><span>&nbsp; Upcoming Events</span></strong>
     </div>
-    <div class=" block-content col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class=" block-content " style="padding: 1px;">
         <?php $_events = $this->getEvents(); ?>
         <?php if ($_events->getSize() > 0) : ?>
-            <!--            <div class="widget-event-list-container">-->
-            <?php $curdate = strtotime(date('Y-m-d 00:00:00')); ?>
-            <?php
-            foreach ($_events as $_event) :
-                $end_date = strtotime($_event->getEndDate());
-                if (($curdate <= $end_date)) {
-                    ?>
-            <div class="widget-event-list-item">
-                    <div class=" col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="upcomming-event-list">            
+                <?php $curdate = strtotime(date('Y-m-d 00:00:00')); ?>
+                <?php
+                foreach ($_events as $_event) :
+                    $end_date = strtotime($_event->getEndDate());
+                    if (($curdate <= $end_date)) {
+                        ?>
 
-                        <a href="<?php echo $_event->getEventUrl() ?>">
-                            <img title="<?php echo $_event->getEventName(); ?>" class="img-responsive" src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail')->resize(150, 150); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
-                    </div>
+                        <div class="upcomming-event-list-item">
+                            <div style="width:60px;">
+                            <div class="upcomming-event-thumbnail">
+                                <a href="<?php echo $_event->getEventUrl() ?>">
+                                    <?php if ($_event->getThumbnail() == "") { ?>
+                                    
+                                        <div  class="event-thumbnail img-responsive" style="background: url(<?php echo Mage::getBaseUrl('skin') . "frontend/base/default/images/tpl_eventsmanager/no-image-available.png"; ?>) no-repeat center center; padding-bottom:100%;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;  background-size: cover;" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" >
+                                        </div>
+                                    
+                                    <?php } else { ?>
+                                        <div  title="<?php echo $_event->getEventName(); ?>" class="event-thumbnail img-responsive" style="background: url(<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail');?>) no-repeat center center; padding-bottom:100%;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;  background-size: cover;" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" >
+                                        </div>
+                                    <?php } ?>
+                                </a>
+                            </div>
+                            </div>    
+                            <a  style="text-decoration: none;"href="<?php echo $_event->getEventUrl() ?>">
+                                <div style="height:15px; width: 15px; border-radius: 2px; background: <?php echo $_event->getColor(); ?>;float:right; margin:2px;" title="Event Color Code"></div>
+                                <strong><?php echo $_event->getEventName(); ?></strong>
+                            </a>
 
-                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 widget-event-list-text">
-                         <div style="height:15px; width: 15px; background: <?php echo $_event->getColor(); ?>;float:right;" title="Event Color Code"></div>
-                        <strong><?php echo $_event->getEventName(); ?></strong></a>
-                       
-                        <div class="widget-event-list-event-short-desc"><p>
+
+                            <p>
                                 <?php echo strip_tags(substr($_event->getDescription(), 0, 50)); ?>...
                             </p>
-                        </div>
-                    </div>
-            </div>
-                    <?php
-                }
-            endforeach;
-            ?>
-            <!--        </div>-->
 
+                        </div>
+                        <?php
+                    }
+                endforeach;
+                ?>
+
+            </div>               
         <?php else : ?>
             <?php echo Mage::helper('tpl_eventsmanager')->__('There are no events at this moment'); ?>
         <?php endif; ?>
     </div>
 </div>    
-<style>
-    .widget-event-list-container{
-        margin-top: 10px;
-        padding: 10px;
-
-        height: 300px;
-        overflow-x: scroll;
-        overflow-x: auto;
-    }
-    .widget-event-list-item{
-       
-        padding-bottom: 12px;
-       
-        overflow: hidden;
-    }
-    .event-thumbnail{
-        padding-left: 0px;
-        /*        position: absolute;*/
-    }
-    .widget-event-list-event-type{
-        float: right;
-
-        right: 0;
-        /* margin-top: -24px; */
-        position: relative;
-    }
-    .widget-event-list-text{
-
-        /*        margin-left: 65px;*/
-        text-overflow: ellipsis;
-        padding-left: 0px;
-
-    }
-    @media (max-width: 900px) {
-
-        .widget-event-list-event-type {
-
-            bottom: 0;
-        }
-    }
-
-
-    @media (max-width: 400px) {
-        .widget-event-list-event-type{
-            display: none;
-        }
-    }
-
-
-    .widget-event-list-event-short-desc{
-
-        overflow: hidden;
-        width: 80%;
-        height: 39px;
-        /*    white-space: nowrap;*/
-        text-align: justify;
-    }
-</style>
 
 
 

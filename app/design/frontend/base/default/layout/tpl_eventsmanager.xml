@@ -22,12 +22,7 @@
             <action method="addCss">
                 <stylesheet>css/tpl_eventsmanager/monthly.css</stylesheet>
             </action>
-           <!-- bootstrap block   First check if there exist bootstrap -->
-            <action method="addCss">
-                <file helper="tpl_eventsmanager/data/checkBootstrapExist" />
-                <!-- i.e. Mage::helper('module/helper')->getJsBasedOnConfig() -->
-            </action>
-            <!-- bootstrap block -->
+           
 
             <action method="addJs">
                 <script>tpl_eventmanager/jquery.js</script>
@@ -57,6 +52,14 @@
     </customer_account>
     <tpl_eventsmanager_event_index translate="label" module="tpl_eventsmanager">
         
+        <!-- bootstrap block   First check if there exist bootstrap -->
+        <reference name="head">
+            <action method="addCss">
+                <file helper="tpl_eventsmanager/data/checkBootstrapExist" />
+                <!-- i.e. Mage::helper('module/helper')->getJsBasedOnConfig() -->
+            </action>
+        </reference>
+            <!-- bootstrap block -->
         <label>Events list</label> 
         <reference name="root">
             <action method="setTemplate">
@@ -70,6 +73,12 @@
         </reference>
     </tpl_eventsmanager_event_index>
     <tpl_eventsmanager_invitationstatus_index translate="label" module="tpl_eventsmanager">
+        <!-- bootstrap block   First check if there exist bootstrap -->
+            <action method="addCss">
+                <file helper="tpl_eventsmanager/data/checkBootstrapExist" />
+                <!-- i.e. Mage::helper('module/helper')->getJsBasedOnConfig() -->
+            </action>
+            <!-- bootstrap block -->
         <label>Invitations Status list</label>
         <update handle="page_two_columns_left" />
         <reference name="content">
@@ -77,6 +86,15 @@
         </reference>
     </tpl_eventsmanager_invitationstatus_index>
     <tpl_eventsmanager_event_view translate="label" module="tpl_eventsmanager">
+         <!-- bootstrap block   First check if there exist bootstrap -->
+        <reference name="head">
+            <action method="addCss">
+                <file helper="tpl_eventsmanager/data/checkBootstrapExist" />
+                <!-- i.e. Mage::helper('module/helper')->getJsBasedOnConfig() -->
+            </action>
+            <block type="tpl_eventsmanager/event_view" name="eventseo" template="tpl_eventsmanager/event/eventseo.phtml" />
+        </reference>
+            <!-- bootstrap block -->
         <label>Event view page</label>
         <reference name="root">
             <action method="setTemplate">

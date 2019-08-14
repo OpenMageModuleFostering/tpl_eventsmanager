@@ -22,30 +22,85 @@
  * @author      TPL
  */
 ?>
-<?php
-$_event = Mage::helper('tpl_eventsmanager/event')->validateCurrentEvent();
-if ($_event) {
-    ?>
-    <?php if ($_event->getAllowComments()) : ?>
-        <?php $_comments = $this->getComments(); ?>
-        <?php if (count($_comments)) : ?>
-            <div class="box-collateral box-reviews col-xs-12 col-sm-12 col-md-12 col-lg-12" id="event-reviews">
-                <h2><?php echo $this->__('Comments for: %s', $_event->getEventName()) ?></h2>
-                    <?php echo $this->getPagerHtml() ?>
-                <dl>
-            <?php foreach ($_comments as $_comment): ?>
-                        <dt style=" margin-top: 30px;">
-                            <div class="author"><?php echo $this->__('On %s %s wrote:', $this->formatDate($_comment->getCreatedAt(), 'long'), $this->escapeHtml($_comment->getName())) ?></div>
-                            <strong><?php echo $this->escapeHtml($_comment->getTitle()) ?></strong>
-                        </dt>
-                        <dd style="margin-bottom: 20px;">
-                        <?php echo nl2br($this->escapeHtml($_comment->getComment())) ?>
-                        </dd>
-                <?php endforeach; ?>
-                </dl>
-            <?php echo $this->getPagerHtml() ?>
-            </div>
-        <?php endif; ?>
-        <?php echo $this->getChildHtml('comment_form') ?>
-    <?php endif;
-} ?>
+<style>
+    .author{
+        font-style: italic;
+        color: 	#9B9B9B;
+    }
+
+    .comment-title{
+        /*      font-style: italic; */
+
+    }
+    .content-tile{
+        border: 1px solid rgb(247, 247, 247);
+    }
+
+    .comments{
+        padding-left: 30px;
+
+    }
+
+    .img-gravatar{
+        text-align: -moz-center;
+        text-align: -webkit-center;
+        padding: 3px;
+        word-wrap:  break-word;
+        /*        border: 1px solid rgb(247, 247, 247);*/
+    }
+    .no-padding{
+        padding: 0px;
+    }
+    .event-review{
+        padding-top: 10px;
+    }
+    .pager-no-toolbar{
+        margin: 0px;
+    }
+</style>
+<div class="cms-page-view row"  itemscope itemtype="http://schema.org/Event">
+    <div class="std col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+        <?php
+        $_event = Mage::helper('tpl_eventsmanager/event')->validateCurrentEvent();
+        if ($_event) {
+            ?>
+            <?php if ($_event->getAllowComments()) : ?>
+                <?php $_comments = $this->getComments(); ?>
+                <?php if (count($_comments)) : ?>
+                    <div class="event-review content-tile box-collateral box-reviews col-xs-12 col-sm-12 col-md-12 col-lg-12" id="event-reviews">
+                        <h2><?php echo $this->__('Comments') ?></h2>
+                        <?php echo $this->getPagerHtml() ?>
+                        <br/>
+
+                        <?php foreach ($_comments as $_comment): ?>
+
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style=" padding: 5px; border-bottom: 1px solid rgb(227, 225, 225);">
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 img-gravatar">
+                                    <img src="http://www.gravatar.com/avatar/<?php echo md5($_comment->getEmail()); ?>"  />
+                                    <div><?php echo $this->escapeHtml($_comment->getName()) ?></div>
+                                    <br/>
+                                </div>
+
+                                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 no-padding" >
+                                    <div class="comment-title">
+
+                                        <strong><?php echo $this->escapeHtml($_comment->getTitle()); ?></strong>
+                                        <div class="pull-right"><?php echo $this->__('%s ', $this->formatDate($_comment->getCreatedAt(), 'long')) ?></div>
+                                    </div>
+                                    <div class="comments"><?php echo nl2br($this->escapeHtml($_comment->getComment())) ?></div>
+
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <?php echo $this->getPagerHtml() ?>
+                    </div>
+                <?php endif; ?>
+                <?php echo $this->getChildHtml('comment_form') ?>
+                <?php
+            endif;
+        }
+        ?>
+    </div>
+</div>

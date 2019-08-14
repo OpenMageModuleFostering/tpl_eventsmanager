@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tpl_EventsManager extension
  * 
@@ -14,6 +15,7 @@
  * @copyright      Copyright (c) 2016
  * @license        http://opensource.org/licenses/mit-license.php MIT License
  */
+
 /**
  * Event admin edit tabs
  *
@@ -21,16 +23,15 @@
  * @package     Tpl_EventsManager
  * @author      TPL
  */
-class Tpl_EventsManager_Block_Adminhtml_Event_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
-{
+class Tpl_EventsManager_Block_Adminhtml_Event_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
+
     /**
      * Initialize Tabs
      *
      * @access public
      * @author TPL
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->setId('event_info_tabs');
         $this->setDestElementId('edit_form');
@@ -44,61 +45,97 @@ class Tpl_EventsManager_Block_Adminhtml_Event_Edit_Tabs extends Mage_Adminhtml_B
      * @return Tpl_EventsManager_Block_Adminhtml_Event_Edit_Tabs
      * @author TPL
      */
-    protected function _prepareLayout()
-    {
+    protected function _prepareLayout() {
         $event = $this->getEvent();
         $entity = Mage::getModel('eav/entity_type')
-            ->load('tpl_eventsmanager_event', 'entity_type_code');
+                ->load('tpl_eventsmanager_event', 'entity_type_code');
         $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
                 ->setEntityTypeFilter($entity->getEntityTypeId());
         $attributes->addFieldToFilter(
-            'attribute_code',
-            array(
-                'nin' => array('meta_title', 'meta_description', 'meta_keywords')
-            )
+                'attribute_code', array(
+            'nin' => array('meta_title', 'meta_description', 'meta_keywords', 'product_launch_date', 'product_launch_time', 'address', 'city', 'state', 'country', 'contact_number', 'contact_email', 'pin_code')
+                )
         );
         $attributes->getSelect()->order('additional_table.position', 'ASC');
 
         $this->addTab(
-            'info',
-            array(
-                'label'   => Mage::helper('tpl_eventsmanager')->__('Event Information'),
-                'content' => $this->getLayout()->createBlock(
-                    'tpl_eventsmanager/adminhtml_event_edit_tab_attributes'
+                'info', array(
+            'label' => Mage::helper('tpl_eventsmanager')->__('Event Information'),
+            'content' => $this->getLayout()->createBlock(
+                            'tpl_eventsmanager/adminhtml_event_edit_tab_attributes'
+                    )
+                    ->setAttributes($attributes)
+                    ->toHtml(),
                 )
-                ->setAttributes($attributes)
-                ->toHtml(),
-            )
         );
         $seoAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entity->getEntityTypeId())
-            ->addFieldToFilter(
-                'attribute_code',
-                array(
-                    'in' => array('meta_title', 'meta_description', 'meta_keywords')
+                ->setEntityTypeFilter($entity->getEntityTypeId())
+                ->addFieldToFilter(
+                'attribute_code', array(
+            'in' => array('meta_title', 'meta_description', 'meta_keywords')
                 )
-            );
+        );
         $seoAttributes->getSelect()->order('additional_table.position', 'ASC');
 
-        $this->addTab(
-            'meta',
-            array(
-                'label'   => Mage::helper('tpl_eventsmanager')->__('Meta'),
-                'title'   => Mage::helper('tpl_eventsmanager')->__('Meta'),
-                'content' => $this->getLayout()->createBlock(
-                    'tpl_eventsmanager/adminhtml_event_edit_tab_attributes'
+        /* START: By Pooja Gujarathi 
+          To add tabbed layout according selected type wise */
+        $productLaunchAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
+                ->setEntityTypeFilter($entity->getEntityTypeId())
+                ->addFieldToFilter(
+                'attribute_code', array(
+            'in' => array('product_launch_date', 'product_launch_time')
                 )
-                ->setAttributes($seoAttributes)
-                ->toHtml(),
-            )
         );
         $this->addTab(
-            'products',
-            array(
-                'label' => Mage::helper('tpl_eventsmanager')->__('Associated products'),
-                'url'   => $this->getUrl('*/*/products', array('_current' => true)),
-                'class' => 'ajax'
-            )
+                'product-launch-events', array(
+            'label' => Mage::helper('tpl_eventsmanager')->__('Product Launch Events'),
+            'title' => Mage::helper('tpl_eventsmanager')->__('Product Launch Events'),
+            'content' => $this->getLayout()->createBlock(
+                            'tpl_eventsmanager/adminhtml_event_edit_tab_attributes'
+                    )
+                    ->setAttributes($productLaunchAttributes)
+                    ->toHtml(),
+                )
+        );
+
+        $localExhibitionAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
+                ->setEntityTypeFilter($entity->getEntityTypeId())
+                ->addFieldToFilter(
+                'attribute_code', array(
+            'in' => array('address', 'city', 'state', 'country', 'contact_number', 'contact_email', 'pin_code')
+                )
+        );
+        $this->addTab(
+                'local-exhibition-events', array(
+            'label' => Mage::helper('tpl_eventsmanager')->__('Local Exhibition Events'),
+            'title' => Mage::helper('tpl_eventsmanager')->__('Local Exhibition Events'),
+            'content' => $this->getLayout()->createBlock(
+                            'tpl_eventsmanager/adminhtml_event_edit_tab_attributes'
+                    )
+                    ->setAttributes($localExhibitionAttributes)
+                    ->toHtml(),
+                )
+        );
+        /* END: By Pooja Gujarathi 
+                To add tabbed layout according selected type wise */
+
+        $this->addTab(
+                'meta', array(
+            'label' => Mage::helper('tpl_eventsmanager')->__('Meta'),
+            'title' => Mage::helper('tpl_eventsmanager')->__('Meta'),
+            'content' => $this->getLayout()->createBlock(
+                            'tpl_eventsmanager/adminhtml_event_edit_tab_attributes'
+                    )
+                    ->setAttributes($seoAttributes)
+                    ->toHtml(),
+                )
+        );
+        $this->addTab(
+                'products', array(
+            'label' => Mage::helper('tpl_eventsmanager')->__('Associated products'),
+            'url' => $this->getUrl('*/*/products', array('_current' => true)),
+            'class' => 'ajax'
+                )
         );
         return parent::_beforeToHtml();
     }
@@ -110,8 +147,8 @@ class Tpl_EventsManager_Block_Adminhtml_Event_Edit_Tabs extends Mage_Adminhtml_B
      * @return Tpl_EventsManager_Model_Event
      * @author TPL
      */
-    public function getEvent()
-    {
+    public function getEvent() {
         return Mage::registry('current_event');
     }
+
 }

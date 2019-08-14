@@ -1,0 +1,20 @@
+<?php
+  $_event = $this->getCurrentEvent();
+  $current_page_url = Mage::helper('core/url')->getCurrentUrl();
+  if($_event){
+?>
+<!-- Facebook meta tags -->
+<meta property="og:url" content="<?php echo $current_page_url?>" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="<?php echo $_event->getEventName(); ?>" />
+<meta property="og:description" content="<?php echo strip_tags(substr($_event->getDescription(), 0, 200)); ?>" />
+<meta property="og:image" content="<?php if ($_event->getBanner()) : echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner'); else: echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail'); endif; ?>" />
+<!-- Facebook meta tags end -->
+<!-- Twitter meta tags-->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="<?php echo strip_tags(substr($_event->getDescription(), 0, 200)); ?>" />
+<meta name="twitter:title" content="<?php echo $_event->getEventName(); ?>" />
+<meta name="twitter:image" content="<?php if ($_event->getBanner()) : echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner'); else: echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail'); endif; ?>" />
+<!-- Twitter meta tags end -->
+<?php
+  }

@@ -21,7 +21,7 @@
         <name>Event Calendar</name>
         <description>Event Calendar widget</description>
         <is_email_compatible>0</is_email_compatible>
-        <parameters>
+<!--        <parameters>
             <event_id type="complex" translate="label">
                 <visible>1</visible>
                 <required>1</required>
@@ -37,13 +37,13 @@
                 </helper_block>
                 <sort_order>120</sort_order>
             </event_id>
-        </parameters>
+        </parameters>-->
     </eventsmanager_event_view>
     <eventsmanager_event_link type="tpl_eventsmanager/event_widget_link" translate="name description" module="tpl_eventsmanager">
         <name>Events Listing</name>
         <description>Events Listing widget</description>
         <is_email_compatible>0</is_email_compatible>
-        <parameters>
+<!--        <parameters>
             <event_id type="complex" translate="label">
                 <visible>1</visible>
                 <required>1</required>
@@ -59,13 +59,13 @@
                 </helper_block>
                 <sort_order>130</sort_order>
             </event_id>
-        </parameters>
+        </parameters>-->
     </eventsmanager_event_link>
     <eventsmanager_event_banner type="tpl_eventsmanager/event_widget_banner" translate="name description" module="tpl_eventsmanager">
         <name>Events Banner</name>
         <description>Events Banner widget</description>
         <is_email_compatible>0</is_email_compatible>
-        <parameters>
+<!--        <parameters>
             <event_id type="complex" translate="label">
                 <visible>1</visible>
                 <required>1</required>
@@ -81,6 +81,6 @@
                 </helper_block>
                 <sort_order>140</sort_order>
             </event_id>
-        </parameters>
+        </parameters>-->
     </eventsmanager_event_banner>
 </widgets>

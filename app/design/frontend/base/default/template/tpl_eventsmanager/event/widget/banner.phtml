@@ -27,12 +27,11 @@ $_events = Mage::getModel('tpl_eventsmanager/event')->getAllEvents();
 $time = microtime();
 $time = str_replace(' ', '', $time);
 ?>
-<div class="banner-slider-tile" id="events-banner-slider_<?php echo $time; ?>" style="height: 270px;">    
+<div class="banner-slider-tile" id="events-banner-slider_<?php echo $time; ?>" >    
     <?php
     $flag = 0;
     foreach ($_events as $_event) :
         ?>
-
         <?php
         $curdate = strtotime(date('Y-m-d 00:00:00'));
         $end_date = strtotime($_event->getEndDate());
@@ -40,20 +39,21 @@ $time = str_replace(' ', '', $time);
         <?php if (($curdate <= $end_date) && (!empty($_event->getBanner()))): ?>
 
             <a href="<?php echo $_event->getEventUrl() ?>">
-                <img alt="<?php echo $_event->getEventName(); ?>" title="<?php echo $_event->getEventName(); ?>" style="display:<?php
+                <div alt="<?php echo $_event->getEventName(); ?>" title="<?php echo $_event->getEventName(); ?>" style="display:<?php
                 if ($flag == 0) {
-                    echo 'initial';
+                    echo 'block';
                 } else {
                     echo 'none';
                 }
-                ?>; max-width:100%; max-height: 250px;" class="event-thumbnail" src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner'); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" /></a>
-
+                ?> ; background: url(<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner'); ?>) no-repeat center center; padding-bottom:20%;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;  background-size: cover;" class="event-thumbnail" >
+                </div>
+            </a>
             <?php
             $flag = 1;
         endif;
         ?>
 
-<?php endforeach; ?>
+    <?php endforeach; ?>
 </div>  
 
 <script>
@@ -61,7 +61,7 @@ $time = str_replace(' ', '', $time);
 
     function shuffle_banners() {
         var banner_div = document.getElementById('events-banner-slider_<?php echo $time; ?>');
-        var all_images = banner_div.getElementsByTagName("img");
+        var all_images = banner_div.getElementsByTagName("div");
 
         var len = all_images.length;
         console.log(all_images);
@@ -75,7 +75,7 @@ $time = str_replace(' ', '', $time);
             {
                 index = 0;
             }
-            all_images[index].style.display = "initial";
+            all_images[index].style.display = "block";
 
             index++;
         }, 2000);
@@ -87,7 +87,7 @@ $time = str_replace(' ', '', $time);
     .banner-slider-tile {
         margin-top: 20px;
         margin-bottom: 10px;
-        padding: 10px;
+        /*        padding: 10px;*/
         display: block;
         background: #F3F3F3;
         border: solid;

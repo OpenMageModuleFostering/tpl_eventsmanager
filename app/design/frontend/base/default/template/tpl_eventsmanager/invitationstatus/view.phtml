@@ -21,6 +21,9 @@
  * @package     Tpl_EventsManager
  * @author      TPL
  */
+if ( Mage::getSingleton('core/design_package')->getPackageName() == "default" && (Mage::getSingleton('core/design_package')->getTheme('frontend')=="default") ){
+   echo "<style>.main { width: 915px; padding: 25px 12px 80px;}</style>";
+} 
 ?>
 <?php $_invitationstatus = $this->getCurrentInvitationstatus(); ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>

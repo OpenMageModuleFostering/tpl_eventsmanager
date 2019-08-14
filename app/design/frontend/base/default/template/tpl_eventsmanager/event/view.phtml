@@ -21,30 +21,27 @@
  * @package     Tpl_EventsManager
  * @author      TPL
  */
-error_reporting(-1);
-ini_set('display_errors', 'On');
+
+
+
+$current_page_url = Mage::helper('core/url')->getCurrentUrl();
+if (Mage::getSingleton('core/design_package')->getPackageName() == "default" && (Mage::getSingleton('core/design_package')->getTheme('frontend') == "default")) {
+    echo "<style>.main { -moz-box-sizing: content-box; box-sizing: content-box; -webkit-box-sizing: content-box;}  button.button span { -moz-box-sizing: content-box; box-sizing: content-box; -webkit-box-sizing: content-box;}</style>";
+}
 ?>
-
-
 <style>
-
-
     .event-view-event-desc{
         margin-top: 20px;
         word-break: normal;
         word-wrap: break-word;
         margin-bottom: 20px;
+        overflow: hidden;
     }
     .event-view-tile {
-        background: #F3F3F3;
-        border: solid;
-        border-width: 1px;
-        border-color: #D4D4D4;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border: 1px solid #ebebeb;
+        background: #F7F7F7;
+        border: 1px solid #f0f0f0;
         box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.098);
-        padding: 10px;
+        padding: 8px;
     }
 
     .event-view-color-bar {
@@ -59,9 +56,12 @@ ini_set('display_errors', 'On');
     .event-title {
         margin-bottom: 3px !important;
     }
-
+    
+    .social-sharing {
+                    padding: 0 5px;
+    }
 </style>
-<div class="cms-page-view row">
+<div class="cms-page-view row"  itemscope itemtype="http://schema.org/Event">
     <?php
     $_event = $this->getCurrentEvent();
     if ($this->getCurrentEvent()) {
@@ -70,50 +70,45 @@ ini_set('display_errors', 'On');
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
         <div class="std col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-            
-            <div class="std col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-            <div class="page-title ">
-                <div style="height:28px; width: 28px; background: <?php echo $_event->getColor(); ?>;float:right;" title="Event Color Code"></div>
-                <h1 class="event-title"><?php echo $_event->getEventName(); ?></h1>
-                 
-            </div>
-            
-                <img style="float: left; margin-right: 8px; margin-top:3px; " height="15" width="15"   src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/calendar-icon.png'; ?> " />
-                <?php echo date('d F Y', strtotime($_event->getFromDate())) . ' (' . $_event->getFromTime() . ')'; ?>&nbsp; - &nbsp;<?php echo date('d F Y', strtotime($_event->getEndDate())) . ' (' . $_event->getEndTime() . ')'; ?>
-            
-            </div>
-                <hr/>
-            <div class="std col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-            <div class="event-view-color-bar"></div>
-            </div>
-           
 
+            <div class="std col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                <div class="page-title ">
+                    <div style="border-radius: 5px; height:25px; width: 25px; background: <?php echo $_event->getColor(); ?>;float:right; margin:3px;" title="Event Color Code"></div>
+                    <a itemprop="url" href="<?php echo $current_page_url;?>"></a>
+                    <h1  itemprop="name" class="event-title"><?php echo $_event->getEventName(); ?></h1>
 
+                </div>
+                <div style="margin-bottom: 5px;">
+                    <img style="float: left; margin-right: 8px; margin-top:3px; " height="15" width="15"   src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/calendar-icon.png'; ?> " />
+                     <meta itemprop="startDate" content="<?php echo $_event->getFromDate().$_event->getFromTime() ?>">
+                    <?php echo date('d F Y', strtotime($_event->getFromDate())) . ' (' . $_event->getFromTime() . ')'; ?>&nbsp; - &nbsp;<?php echo date('d F Y', strtotime($_event->getEndDate())) . ' (' . $_event->getEndTime() . ')'; ?>
+                </div>
+            </div>
+            <hr class="divider" style="display: flex; width: 97%; margin: 5px auto;">
+<!--            <div class="std col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                <div class="event-view-color-bar"></div>
+            </div>-->
 
             <?php if ($_event->getBanner()) : ?>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 img-responsive">
-                    <img width="100%" height="250px"  src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner'); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 img-responsive" style="width:100%;">
+                    <div style="background: url(<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner'); ?>) no-repeat center center; padding-bottom:20%;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;  background-size: cover; border: 1px solid rgb(247, 247, 247);" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" >
+                    </div>
                 </div>
             <?php endif; ?>
-
-
-
-
-            <!-- Event Description Tile start -->
+         <!-- Event Description Tile start -->
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " >
                 <div class="event-view-event-desc event-view-tile">
-                <h3>Description :</h3>   
-                <?php echo $_event->getDescription(); ?>
-                <br/>
-                <br/>
-                <?php if ($_event_type == 'Product Launch Event') { ?>
-                    Launch Date: 
-                    <?php echo date('l, d F Y', strtotime($_event->getProductLaunchDate())); ?><br/>
-                    Launch Time:
-                    <?php
-                    echo $_event->getProductLaunchTime();
-                }
-                ?>
+<!--                    <h3>Description :</h3>   -->
+                    <?php echo $_event->getDescription(); ?>
+
+                    <?php if ($_event_type == 'Product Launch Event') { ?>
+                        Launch Date: 
+                        <?php echo date('l, d F Y', strtotime($_event->getProductLaunchDate())); ?><br/>
+                        Launch Time:
+                        <?php
+                        echo $_event->getProductLaunchTime();
+                    }
+                    ?>
                 </div>
             </div>
             <!-- Event Description Tile End -->
@@ -126,55 +121,103 @@ ini_set('display_errors', 'On');
             if ($_productCollection->count()):
                 ?>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-view-products-grid " >
-                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-view-tile">
-                    <h3>Associated Products :</h3>
-                    <div class="category-products">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-view-tile">
+                        <h3>Associated Products</h3>
+                        <div class="category-products">
 
-                        <?php $_collectionSize = $_productCollection->count() ?>
-                        <?php $_columnCount = 3; ?>
-                        <?php
-                        $i = 0;
-                        foreach ($_productCollection as $_product):
-                            $_product = Mage::getModel('catalog/product')->load($_product->getEntityId());
-                            ?>
-                            <?php if ($i++ % $_columnCount == 0): ?>
+                            <?php $_collectionSize = $_productCollection->count() ?>
+                            <?php $_columnCount = 3; ?>
+                            <?php
+                            $i = 0;
+                            foreach ($_productCollection as $_product):
+                                $_product = Mage::getModel('catalog/product')->load($_product->getEntityId());
+                                ?>
+                                <?php if ($i++ % $_columnCount == 0): ?>
 
-                            <?php endif ?>
-                            <div style="   margin-bottom: 15px; text-align: center;" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class=""><img style="width:100%" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize('140', '140'); ?>"    class="img-responsive  product-image"/></a>
+                                <?php endif ?>
+                                <div itemprop="offers" itemscope itemtype="http://schema.org/AggregateOffer" style="   margin-bottom: 15px; text-align: center;" class="col-xs-12 col-sm-6 col-md-3 col-lg-3 item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class=""><img style="width:100%" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize('140', '140'); ?>"    class="img-responsive  product-image"/></a>
+                                    </div>
+
+                                    <h2 class="product-name"><a itemprop="url" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                                    <span itemprop="lowPrice">
+                                    <?php
+                                    $currency_code = Mage::app()->getStore()->getCurrentCurrencyCode();
+                                    $currency_symbol = Mage::app()->getLocale()->currency($currency_code)->getSymbol();
+                                    echo $currency_symbol . ' ' . $_product->getPrice();
+                                    ?>
+                                    </span>        
+                                    <br/>
+                                    <?php if ($_product->isSaleable()): ?>
+                                        <a href="<?php echo Mage::helper('checkout/cart')->getAddUrl($_product); ?>">    
+                                            <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart" ><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></a>
+                                    <?php else: ?>
+                                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                    <?php endif; ?>
+
+
                                 </div>
+                                <?php if ($i % $_columnCount == 0 || $i == $_collectionSize): ?>
 
-                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
-
-                                <?php
-                                $currency_code = Mage::app()->getStore()->getCurrentCurrencyCode();
-                                $currency_symbol = Mage::app()->getLocale()->currency( $currency_code )->getSymbol();
-                                echo $currency_symbol.' '.$_product->getPrice(); ?>
-                                <br/>
-                                <?php if ($_product->isSaleable()): ?>
-                                    <a href="<?php echo Mage::helper('checkout/cart')->getAddUrl($_product); ?>">    
-                                        <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart" ><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></a>
-                                <?php else: ?>
-                                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
-                                        <?php endif; ?>
-
-
-                            </div>
-                            <?php if ($i % $_columnCount == 0 || $i == $_collectionSize): ?>
-
-                            <?php endif ?>
-                        <?php endforeach ?>
-                        <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script></div>
-                </div>
-                    </div> 
+                                <?php endif ?>
+                            <?php endforeach ?>
+                            <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script></div>
+                    </div>
+                </div> 
             <?php endif; ?>
-                     
+
             <!-- Event Associated Products Tile End -->
+            
+            <!-- Social share buttons -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="padding-bottom:20px;">
+                
+                <!-- Facebook Share -->
+                <span class="social-sharing">
+                    <iframe style="border: none; overflow: hidden;" src="https://www.facebook.com/plugins/share_button.php?href=<?php echo $current_page_url; ?>&amp;layout=button_count&amp;width=95&amp;height=20" height="20" width="95">
+                    </iframe>
+                </span>
+                
+                <!-- Twitter Share -->
+                <span class="social-sharing">
+                    <a class="twitter-share-button" href="https://twitter.com/share" data-url="<?php echo $current_page_url; ?>" data-text="<?php echo $_event->getEventName(); ?>" data-hashtags="tpleventmanager">
+                        Tweet
+                    </a>
+                
+                    <script type="text/javascript">
+                        // <![CDATA[
+                        !function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                            if (!d.getElementById(id)) {
+                                js = d.createElement(s);
+                                js.id = id;
+                                js.src = p + '://platform.twitter.com/widgets.js';
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }
+                        }(document, 'script', 'twitter-wjs');
+                        // ]]>
+                    </script>
+                </span>
+                
+                <!-- Google Plus Share -->
+                <span class="social-sharing">
+                    <!-- Place this tag in your head or just before your close body tag. -->
+                    <script type="text/javascript" src="https://apis.google.com/js/platform.js" defer="defer" async=""></script>
+                    <!-- Place this tag where you want the share button to render. -->
+                    <div class="g-plus" data-action="share" data-annotation="bubble" data-href="<?php echo $current_page_url; ?>"></div>
+                </span>
+                
+                <!-- LinkedIn Share -->
+                <span class="social-sharing">
+                    <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                    <script type="IN/Share" data-url="<?php echo $current_page_url; ?>" data-counter="right"></script>
+                </span>
+            </div>
+
         </div>
-        <?php
-    } else {
-        echo "<span>You do not have permission to view this event</span>";
-    }
-    ?>
+    <?php
+} else {
+    echo "<span>You do not have permission to view this event</span>";
+}
+?>
 </div>

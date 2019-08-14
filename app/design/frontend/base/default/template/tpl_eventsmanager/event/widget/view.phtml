@@ -23,91 +23,90 @@
  */
 ?>
 
-<!--  <?php $_event = $this->getCurrentEvent(); ?>
+<!--  <?php //$_event = $this->getCurrentEvent(); ?>
 <?php ?>
   <div class="event-widget-view">
-      <h3><?php echo $_event->getEventName() ?></h3>
+      <h3><?php //echo $_event->getEventName() ?></h3>
       <div>
           <div class="event_name-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Event Name'); ?>:<?php echo $_event->getEventName(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Event Name'); ?>:<?php //echo $_event->getEventName(); ?>
           </div>
           <div class="from_date-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("From Date"); ?>: <?php echo Mage::helper('core')->formatDate($_event->getFromDate(), 'full'); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("From Date"); ?>: <?php //echo Mage::helper('core')->formatDate($_event->getFromDate(), 'full'); ?>
           </div>
           <div class="from_time-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('From Time'); ?>:<?php echo $_event->getFromTime(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('From Time'); ?>:<?php //echo $_event->getFromTime(); ?>
           </div>
           <div class="end_date-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("End Date"); ?>: <?php echo Mage::helper('core')->formatDate($_event->getEndDate(), 'full'); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("End Date"); ?>: <?php //echo Mage::helper('core')->formatDate($_event->getEndDate(), 'full'); ?>
           </div>
           <div class="end_time-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('End Time'); ?>:<?php echo $_event->getEndTime(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('End Time'); ?>:<?php //echo $_event->getEndTime(); ?>
           </div>
           <div class="description-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Description'); ?>:<?php echo $_event->getDescription(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Description'); ?>:<?php //echo $_event->getDescription(); ?>
           </div>
           <div class="thumbnail-widget">
-<?php if ($_event->getThumbnail()) : ?>
-      <img src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail')->resize(75); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
-<?php endif; ?>
+<?php //if ($_event->getThumbnail()) : ?>
+      <img src="<?php //echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail')->resize(75); ?>" alt="<?php //echo $this->escapeHtml($_event->getEventName()); ?>" />
+<?php //endif; ?>
           </div>
           <div class="banner-widget">
-<?php if ($_event->getBanner()) : ?>
-      <img src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner')->resize(75); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
-<?php endif; ?>
+<?php //if ($_event->getBanner()) : ?>
+      <img src="<?php //echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner')->resize(75); ?>" alt="<?php //echo $this->escapeHtml($_event->getEventName()); ?>" />
+<?php// endif; ?>
           </div>
           <div class="color-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Color'); ?>:<?php echo $_event->getColor(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Color'); ?>:<?php //echo $_event->getColor(); ?>
           </div>
           <div class="event_level-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("Event Level"); ?>:<?php echo $_event->getAttributeText('event_level'); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("Event Level"); ?>:<?php //echo $_event->getAttributeText('event_level'); ?>
           </div>
           <div class="event_type-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("Event Type"); ?>:<?php echo $_event->getAttributeText('event_type'); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("Event Type"); ?>:<?php //echo $_event->getAttributeText('event_type'); ?>
           </div>
           <div class="group_id-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Select Group'); ?>:<?php echo $_event->getGroupId(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Select Group'); ?>:<?php //echo $_event->getGroupId(); ?>
           </div>
           <div class="user_email-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('User Email'); ?>:<?php echo $_event->getUserEmail(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('User Email'); ?>:<?php //echo $_event->getUserEmail(); ?>
           </div>
           <div class="is_invitable-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("Is Invitable"); ?>:<?php echo ($_event->getIsInvitable() == 1) ? Mage::helper('tpl_eventsmanager')->__('Yes') : Mage::helper('tpl_eventsmanager')->__('No') ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("Is Invitable"); ?>:<?php //echo ($_event->getIsInvitable() == 1) ? Mage::helper('tpl_eventsmanager')->__('Yes') : Mage::helper('tpl_eventsmanager')->__('No') ?>
           </div>
           <div class="product_launch_date-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("Product Launch Date"); ?>: <?php echo Mage::helper('core')->formatDate($_event->getProductLaunchDate(), 'full'); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("Product Launch Date"); ?>: <?php //echo Mage::helper('core')->formatDate($_event->getProductLaunchDate(), 'full'); ?>
           </div>
           <div class="product_launch_time-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Product Launch Time'); ?>:<?php echo $_event->getProductLaunchTime(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Product Launch Time'); ?>:<?php //echo $_event->getProductLaunchTime(); ?>
           </div>
           <div class="address-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Address '); ?>:<?php echo $_event->getAddress(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Address '); ?>:<?php //echo $_event->getAddress(); ?>
           </div>
           <div class="city-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('City'); ?>:<?php echo $_event->getCity(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('City'); ?>:<?php //echo $_event->getCity(); ?>
           </div>
           <div class="state-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('State'); ?>:<?php echo $_event->getState(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('State'); ?>:<?php //echo $_event->getState(); ?>
           </div>
           <div class="country-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Country'); ?>:<?php echo $_event->getCountry(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Country'); ?>:<?php //echo $_event->getCountry(); ?>
           </div>
           <div class="contact_number-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Contact Number'); ?>:<?php echo $_event->getContactNumber(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Contact Number'); ?>:<?php //echo $_event->getContactNumber(); ?>
           </div>
           <div class="contact_email-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Contact Email'); ?>:<?php echo $_event->getContactEmail(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Contact Email'); ?>:<?php //echo $_event->getContactEmail(); ?>
           </div>
           <div class="pin_code-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__('Postal Code / PIN / Area Code'); ?>:<?php echo $_event->getPinCode(); ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__('Postal Code / PIN / Area Code'); ?>:<?php// echo $_event->getPinCode(); ?>
           </div>
           <div class="cancel_event-widget">
-<?php echo Mage::helper('tpl_eventsmanager')->__("Cancel Event"); ?>:<?php echo ($_event->getCancelEvent() == 1) ? Mage::helper('tpl_eventsmanager')->__('Yes') : Mage::helper('tpl_eventsmanager')->__('No') ?>
+<?php //echo Mage::helper('tpl_eventsmanager')->__("Cancel Event"); ?>:<?php //echo ($_event->getCancelEvent() == 1) ? Mage::helper('tpl_eventsmanager')->__('Yes') : Mage::helper('tpl_eventsmanager')->__('No') ?>
           </div>
 
       </div>
   </div>
-<?php ?>
 -->
 <?php
 $time = microtime();

@@ -23,7 +23,24 @@
  */
 ?>
 
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <style>
+        .no-padding{
+            padding: 0px;
+         }
+         .event-thumbnail{
+             border: 1px solid;
+             border-color: #eee;
+         }
+    </style>
+
+
+<?php
+if (Mage::getSingleton('core/design_package')->getPackageName() == "default" && (Mage::getSingleton('core/design_package')->getTheme('frontend') == "default")) {
+    echo "<style>.main { -moz-box-sizing: content-box; box-sizing: content-box; -webkit-box-sizing: content-box;}  button.button span { -moz-box-sizing: content-box; box-sizing: content-box; -webkit-box-sizing: content-box;}</style>";
+}
+
+echo $this->getMessagesBlock()->getGroupedHtml()
+?>
 <?php $_events = $this->getEvents(); ?>
 <div class="page-title event-title">
     <?php if (Mage::helper('tpl_eventsmanager/event')->isRssEnabled()) : ?>
@@ -36,50 +53,58 @@
 
     <div class="row">
         <?php foreach ($_events as $_event) : ?>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-bottom: 20px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-bottom: 10px; width:100%;">
 
-                <div class="col-xs-5 col-sm-3 col-md-2 col-lg-2">            
+                <div class="col-xs-5 col-sm-3 col-md-2 col-lg-2 no-padding">            
                     <a href="<?php echo $_event->getEventUrl() ?>">
                         <?php if ($_event->getThumbnail() == "") { ?>
-                            <img width="110px" height="100px"  class="event-thumbnail" src="<?php echo Mage::getBaseUrl('skin') . "frontend/base/default/images/tpl_eventsmanager/no-image-available.png"; ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+                            <div class="event-thumbnail" style="background: url(<?php echo Mage::getBaseUrl('skin') . "frontend/base/default/images/tpl_eventsmanager/no-image-available.png"; ?>) no-repeat center center; padding-bottom:100%;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;  background-size: cover;" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" >
+                            </div>
                         <?php } else { ?>
-                            <img width="110px" height="100px" class="event-thumbnail" src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail'); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+                            <div  class="event-thumbnail" style="background: url(<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail'); ?>) no-repeat center center; padding-bottom:100%;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;  background-size: cover;" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>">
+                            </div>
                         <?php } ?>
-
+                       </a>     
                 </div>
-        <!--                    <img class="event-thumbnail" src="<?php //echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail')->resize(100, 100);  ?>" alt="<?php //echo $_event->getEventName()//echo $this->escapeHtml($_event->getEventName());  ?>" />-->
-        <!--                     <img src="<?php
-                        // echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).
-                        $_event->getEventUrl()
-                        ?>" class="event-thumnail"/>-->
-                <div class="col-xs-7 col-sm-8 col-md-10 col-lg-10">
-                    <div style="height:15px; width: 15px; background: <?php echo $_event->getColor(); ?>;float:right;" title="Event Color Code"></div>
-                    <strong><?php echo $_event->getEventName(); ?></strong>
-                    </a>
-                    <br/>
-                    <div class=" col-xs-12  col-sm-12 col-md-10 col-lg-10" style="padding: 5px;"> 
+                <div class="col-xs-7 col-sm-8 col-md-10 col-lg-10 no-padding">
+                   
+                    <div class="col-xs-12  col-sm-12 col-md-12 col-lg-12" style="margin: 2px auto;">
+                        <div style="height:15px; width: 15px; border-radius: 2px; margin: 3px; background: <?php echo $_event->getColor(); ?>;float:right;" title="Event Color Code">
+                        </div>
+                        <a href="<?php echo $_event->getEventUrl() ?>">
+                            <strong><?php echo $_event->getEventName(); ?></strong>
+                        </a>
+                    </div>
+                    
+                    <div class=" col-xs-12  col-sm-12 col-md-12 col-lg-12 " style="margin: 2px auto;"> 
                         <img style="float: left; margin-right: 8px; margin-top:3px; " height="15" width="15"   src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/calendar-icon.png'; ?> " />
                         <?php echo date('d F Y', strtotime($_event->getFromDate())) . ' (' . $_event->getFromTime() . ')'; ?>&nbsp; - &nbsp;<?php echo date('d F Y', strtotime($_event->getEndDate())) . ' (' . $_event->getEndTime() . ')'; ?>
 
                     </div>
-        <!--                <span>( <?php //echo $_event->getAttributeText('event_type');  ?> )</span>-->
+        <!--                <span>( <?php //echo $_event->getAttributeText('event_type');   ?> )</span>-->
 
-                    <div class=" hidden-xs  col-sm-12 col-md-10 col-lg-10">        
-                        <div class="event-list-event-short-desc" style="text-align:justify;"><p>
+                    <div class=" hidden-xs  col-sm-12 col-md-12 col-lg-12 ">        
+                        <div class="event-list-event-short-desc" style="text-align:justify;">
+                            <p>
                                 <?php echo strip_tags(substr($_event->getDescription(), 0, 200)); ?>...
+                                <a href="<?php echo $_event->getEventUrl() ?>">
+                                    <span>More</span>
+                                </a>
                             </p>
                         </div>
                     </div>
 
 
-                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding: 5px;">    
+                  <?php /*  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding: 5px;">    
 
                         <a href="<?php echo $_event->getEventUrl() ?>"><button class="button">
                                 <span>View Detail</span></button></a>
 
-                    </div>
+                    </div> */?>
                 </div>
+                
             </div>
+        <hr class="divider" style="display: flex; width: 97%; margin: 10px auto; " />
         <?php endforeach; ?>
     </div>
     <?php echo $this->getPagerHtml(); ?>
