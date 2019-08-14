@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <tpl_eventsmanager translate="title" module="tpl_eventsmanager">
+                                        <title>EventsManager</title>
+                                    </tpl_eventsmanager>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <tpl_eventsmanager translate="title" module="tpl_eventsmanager">
+                        <title>Events Manager</title>
+                        <children>
+                            <event translate="title" module="tpl_eventsmanager">
+                                <title>Event</title>
+                                <sort_order>0</sort_order>
+                            </event>
+                            <event_comments translate="title" module="tpl_eventsmanager">
+                                <title>Manage Event Comments</title>
+                                <sort_order>5</sort_order>
+                            </event_comments>
+                            <event_attributes translate="title" module="tpl_eventsmanager">
+                                <title>Manage Event attributes</title>
+                                <sort_order>7</sort_order>
+                            </event_attributes>
+                            <invitationstatus translate="title" module="tpl_eventsmanager">
+                                <title>Invitation Status</title>
+                                <sort_order>10</sort_order>
+                            </invitationstatus>
+                            <invitationstatus_comments translate="title" module="tpl_eventsmanager">
+                                <title>Manage Invitation Status Comments</title>
+                                <sort_order>15</sort_order>
+                            </invitationstatus_comments>
+                            <invitationstatus_attributes translate="title" module="tpl_eventsmanager">
+                                <title>Manage Invitation Status attributes</title>
+                                <sort_order>17</sort_order>
+                            </invitationstatus_attributes>
+                        </children>
+                    </tpl_eventsmanager>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <tpl_eventsmanager translate="title" module="tpl_eventsmanager">
+            <title>Events Manager</title>
+            <sort_order>65</sort_order>
+            <children>
+                <event translate="title" module="tpl_eventsmanager">
+                    <title>Events</title>
+                    <action>adminhtml/eventsmanager_event</action>
+                    <sort_order>0</sort_order>
+                </event>
+                <event_comments translate="title" module="tpl_eventsmanager">
+                    <title>Manage Event Comments</title>
+                    <action>adminhtml/eventsmanager_event_comment</action>
+                    <sort_order>4</sort_order>
+                </event_comments>
+<!--                <event_attributes translate="title" module="tpl_eventsmanager">
+                    <title>Manage Event Attributes</title>
+                    <action>adminhtml/eventsmanager_event_attribute</action>
+                    <sort_order>7</sort_order>
+                </event_attributes>-->
+                <invitationstatus translate="title" module="tpl_eventsmanager">
+                    <title>Invitation Status</title>
+                    <action>adminhtml/eventsmanager_invitationstatus</action>
+                    <sort_order>10</sort_order>
+                </invitationstatus>
+<!--                <invitationstatus_comments translate="title" module="tpl_eventsmanager">
+                    <title>Manage Invitation Status Comments</title>
+                    <action>adminhtml/eventsmanager_invitationstatus_comment</action>
+                    <sort_order>14</sort_order>
+                </invitationstatus_comments>
+                <invitationstatus_attributes translate="title" module="tpl_eventsmanager">
+                    <title>Manage Invitation Status Attributes</title>
+                    <action>adminhtml/eventsmanager_invitationstatus_attribute</action>
+                    <sort_order>17</sort_order>
+                </invitationstatus_attributes>-->
+            </children>
+        </tpl_eventsmanager>
+    </menu>
+</config>

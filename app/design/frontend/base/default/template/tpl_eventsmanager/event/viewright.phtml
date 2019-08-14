@@ -1,0 +1,165 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event view template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+
+<style>
+    .tpl-event-block {
+        margin-bottom: 6px;
+        overflow: hidden;
+        padding-bottom: 4px; 
+    }
+
+    @media (max-width: 700px) {
+        .tpl-event-block {
+            border-width: 0px 1px 1px !important;
+            border-style: solid !important;
+            border-color: #cccccc !important;
+            overflow: hidden;
+            margin-bottom: 20px !important;
+
+        }
+    }
+
+    .tpl-event-block-content {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    
+    .tpl-event-map {
+        border: 1px solid #ebebeb;
+box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.098);
+    }
+</style>
+<?php
+$_event = $this->getCurrentEvent();
+if ($this->getCurrentEvent()) {
+    $_event_type = $_event->getAttributeText('event_type');
+    ?>
+    <!-- Event Location Tile start -->
+    <?php if ($_event_type == 'Local Exhibition Event') { ?>
+        <div class="block tpl-event-block" style="" >
+            <div class="block-title">
+                <strong><span>&nbsp; Location & Contact Details</span></strong>
+            </div>
+            <div class=" block-content tpl-event-block-content">
+
+                                        <!--        <span><strong> Contact Details: </strong> </span> -->
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="padding-top: 10px;">
+                    <img  src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/location-marker.png'; ?>"/>
+                </div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <ul>
+                        <li><?php echo $_event->getAddress(); ?></li>
+                        <li><?php echo $_event->getCity(); ?></li>
+                        <li><?php echo $_event->getState(); ?></li>
+                        <li><?php echo $_event->getCountry(); ?></li>
+                        <li><?php echo $_event->getPinCode(); ?></li>
+                    </ul> 
+                </div> 
+                    
+                <?php if($_event->getContactNumber() != "" || $_event->getContactEmail() != ""){ ?>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="padding-top: 16px;">
+                    <img height="15" width="15"  src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/contact.png'; ?>"/></div> 
+                <?php }?>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="padding-top: 10px;">
+                    <ul>
+                        <li><?php echo $_event->getContactNumber(); ?></li>
+                        <li><?php echo $_event->getContactEmail(); ?></li>
+                    </ul>  
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="padding-top:10px;padding-bottom: 10px;">
+                    <a  href="https://www.google.com/maps/place/<?php echo $_event->getAddress() . '+' . $_event->getCity() . '+' . $_event->getCountry(); ?>" target="new"><img class="tpl-event-map" src="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $_event->getAddress() . '+' . $_event->getCity() . '+' . $_event->getCountry(); ?>&zoom=13&size=250x250&maptype=roadmap&markers=color:red|<?php echo $_event->getAddress() . '+' . $_event->getCity() . '+' . $_event->getCountry(); ?>&key=<?php echo Mage::getStoreConfig('tpl_eventsmanager/customsettings/google_maps_api_key', Mage::app()->getStore()); ?>"/></a>
+                </div>
+
+            </div>
+        </div>
+    <?php } ?>
+    <!-- Event Location Tile End -->
+
+
+    <!-- Event Invitation Tile start -->
+    <?php
+    //echo Mage::helper('core')->formatDate($_event->getEndDate(), 'full');
+    //echo '<br/>';
+    //echo date('Y-m-d 00:00:00').'   '.$_event->getEndDate() ;
+    // hiding invitation tile if event is expired
+    $curdate = strtotime(date('Y-m-d 00:00:00'));
+    $end_date = strtotime($_event->getEndDate());
+
+
+    if ($_event->getIsInvitable() == 1 && ($curdate <= $end_date)):
+        ?>
+        <div class="block tpl-event-block" style="overflow: hidden;" >
+            <div class="block-title">
+                <strong><span>&nbsp; Event Invitation </span></strong>
+            </div>
+            <div class=" block-content tpl-event-block-content">
+
+                <?php
+                $prev_status = "";
+                if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+                    $invitationstatus_model = Mage::getModel('tpl_eventsmanager/invitationstatus')->getCollection();
+                    $customer = Mage::getSingleton('customer/session')->getCustomer();
+
+                    $data = $invitationstatus_model
+                                    ->addAttributeToFilter('customer_email', $customer->getEmail())
+                                    ->addAttributeToFilter('event_id', $_event->getEntityId())->getData();
+                    if (count($data)) {
+
+                        $status = Mage::getModel('tpl_eventsmanager/invitationstatus')->load($data[0]['entity_id']);
+                        //echo "Last Updated Invitation Status : " . $status->getAttributeText('event_invitation_status');
+                        $prev_status = $status->getAttributeText('event_invitation_status');
+                    }
+                }
+                ?>
+
+                <div style="text-align: right;">
+                    <button class="button btn-cart" onclick="accept_invitation();"<?php if ($prev_status == "Accepted") {
+            echo 'disabled';
+        } ?> >Accept</button>
+                    <button class="button btn-cart" onclick="reject_invitation();" <?php if ($prev_status == "Rejected") {
+            echo 'disabled';
+        } ?> >Reject</button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <!-- Event Invitation Tile end -->
+
+    <script>
+        function accept_invitation()
+        {
+            window.location = "<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>index.php/tpl_eventsmanager/invitationstatus/invitationresponse?status=1&event_id=<?php echo $_event->getEntityId(); ?>&event_name=<?php echo $_event->getEventName(); ?>";
+                }
+
+                function reject_invitation()
+                {
+                    window.location = "<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>index.php/tpl_eventsmanager/invitationstatus/invitationresponse?status=2&event_id=<?php echo $_event->getEntityId(); ?>&event_name=<?php echo $_event->getEventName(); ?>";
+                        }
+    </script>
+
+    <?php
+}
+?>

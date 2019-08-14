@@ -1,0 +1,162 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event view widget template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+
+<!--  <?php $_event = $this->getCurrentEvent(); ?>
+<?php ?>
+  <div class="event-widget-view">
+      <h3><?php echo $_event->getEventName() ?></h3>
+      <div>
+          <div class="event_name-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Event Name'); ?>:<?php echo $_event->getEventName(); ?>
+          </div>
+          <div class="from_date-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("From Date"); ?>: <?php echo Mage::helper('core')->formatDate($_event->getFromDate(), 'full'); ?>
+          </div>
+          <div class="from_time-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('From Time'); ?>:<?php echo $_event->getFromTime(); ?>
+          </div>
+          <div class="end_date-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("End Date"); ?>: <?php echo Mage::helper('core')->formatDate($_event->getEndDate(), 'full'); ?>
+          </div>
+          <div class="end_time-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('End Time'); ?>:<?php echo $_event->getEndTime(); ?>
+          </div>
+          <div class="description-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Description'); ?>:<?php echo $_event->getDescription(); ?>
+          </div>
+          <div class="thumbnail-widget">
+<?php if ($_event->getThumbnail()) : ?>
+      <img src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail')->resize(75); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+<?php endif; ?>
+          </div>
+          <div class="banner-widget">
+<?php if ($_event->getBanner()) : ?>
+      <img src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'banner')->resize(75); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+<?php endif; ?>
+          </div>
+          <div class="color-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Color'); ?>:<?php echo $_event->getColor(); ?>
+          </div>
+          <div class="event_level-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("Event Level"); ?>:<?php echo $_event->getAttributeText('event_level'); ?>
+          </div>
+          <div class="event_type-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("Event Type"); ?>:<?php echo $_event->getAttributeText('event_type'); ?>
+          </div>
+          <div class="group_id-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Select Group'); ?>:<?php echo $_event->getGroupId(); ?>
+          </div>
+          <div class="user_email-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('User Email'); ?>:<?php echo $_event->getUserEmail(); ?>
+          </div>
+          <div class="is_invitable-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("Is Invitable"); ?>:<?php echo ($_event->getIsInvitable() == 1) ? Mage::helper('tpl_eventsmanager')->__('Yes') : Mage::helper('tpl_eventsmanager')->__('No') ?>
+          </div>
+          <div class="product_launch_date-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("Product Launch Date"); ?>: <?php echo Mage::helper('core')->formatDate($_event->getProductLaunchDate(), 'full'); ?>
+          </div>
+          <div class="product_launch_time-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Product Launch Time'); ?>:<?php echo $_event->getProductLaunchTime(); ?>
+          </div>
+          <div class="address-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Address '); ?>:<?php echo $_event->getAddress(); ?>
+          </div>
+          <div class="city-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('City'); ?>:<?php echo $_event->getCity(); ?>
+          </div>
+          <div class="state-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('State'); ?>:<?php echo $_event->getState(); ?>
+          </div>
+          <div class="country-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Country'); ?>:<?php echo $_event->getCountry(); ?>
+          </div>
+          <div class="contact_number-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Contact Number'); ?>:<?php echo $_event->getContactNumber(); ?>
+          </div>
+          <div class="contact_email-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Contact Email'); ?>:<?php echo $_event->getContactEmail(); ?>
+          </div>
+          <div class="pin_code-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__('Postal Code / PIN / Area Code'); ?>:<?php echo $_event->getPinCode(); ?>
+          </div>
+          <div class="cancel_event-widget">
+<?php echo Mage::helper('tpl_eventsmanager')->__("Cancel Event"); ?>:<?php echo ($_event->getCancelEvent() == 1) ? Mage::helper('tpl_eventsmanager')->__('Yes') : Mage::helper('tpl_eventsmanager')->__('No') ?>
+          </div>
+
+      </div>
+  </div>
+<?php ?>
+-->
+<?php
+$time = microtime();
+$time = str_replace(' ', '', $time);
+$time = str_replace('.', '', $time);
+?>
+<div class="block">
+    <div class="block-title">
+        <strong><span>&nbsp; Events Calendar</span></strong>
+    </div>
+    <div class=" block-content">
+    <div style="width:100%; max-width:100%; display:inline-block;">
+        <div class="monthly" id="mycalendar_<?php echo $time; ?>"></div>
+    </div>
+    <br><br>
+    <!--		<h2>Example Two - Date Picker</h2>
+                    <div style="display:inline-block; width:250px;">
+                            <input type="text" id="mytarget" value="Select Date">
+                            <div class="monthly" id="mycalendar2"></div>
+                    </div>-->
+    <br>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(window).load(function () {
+
+        jQuery('#mycalendar_<?php echo $time; ?>').monthly({
+            mode: 'event',
+            xmlUrl: '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) ?>index.php/tpl_eventsmanager/event/geteventinxml'
+        });
+
+//		jQuery('#mycalendar2').monthly({
+//			mode: 'picker',
+//			target: '#mytarget',
+//			setWidth: '250px',
+//			startHidden: true,
+//			showTrigger: '#mytarget',
+//			stylePast: true,
+//			disablePast: true
+//		});
+
+        switch (window.location.protocol) {
+            case 'http:':
+            case 'https:':
+                // running on a server, should be good.
+                break;
+            case 'file:':
+                alert('Just a heads-up, events will not work when run locally.');
+        }
+
+    });
+</script>

@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+--> 
+<layout>
+    <adminhtml_eventsmanager_event_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/event</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_event" name="event">
+                <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm">
+                        <params>0</params>
+                    </action>
+                </block>
+            </block>
+
+        </reference>
+    </adminhtml_eventsmanager_event_index>
+    <adminhtml_eventsmanager_event_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_event_grid" name="event_grid"/>
+        </block>
+    </adminhtml_eventsmanager_event_grid>
+    <!-- Event add/edit action -->
+    <adminhtml_eventsmanager_event_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/event</menupath>
+            </action>
+        </reference>
+<!--        <reference name="head">
+            <action method="addJs">
+                <script>tpl_eventmanager/eventeditform.js</script>
+            </action>
+        </reference>-->
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_event_edit" name="event_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="adminhtml/store_switcher" name="store_switcher" before="-"></block>
+            <block type="tpl_eventsmanager/adminhtml_event_edit_tabs" name="event_tabs"></block>
+        </reference>
+        <reference name="head">
+            <action method="setCanLoadTinyMce">
+                <load>1</load>
+            </action>
+        </reference>
+        <reference name="js">
+            <block type="core/template" name="catalog.wysiwyg.js" template="catalog/wysiwyg/js.phtml"/>
+        </reference>
+    </adminhtml_eventsmanager_event_edit>
+
+    <adminhtml_eventsmanager_invitationstatus_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/invitationstatus</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus" name="invitationstatus">
+                <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm">
+                        <params>0</params>
+                    </action>
+                </block>
+            </block>
+
+        </reference>
+    </adminhtml_eventsmanager_invitationstatus_index>
+    <adminhtml_eventsmanager_invitationstatus_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_grid" name="invitationstatus_grid"/>
+        </block>
+    </adminhtml_eventsmanager_invitationstatus_grid>
+    <!-- Invitationstatus add/edit action -->
+    <adminhtml_eventsmanager_invitationstatus_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/invitationstatus</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_edit" name="invitationstatus_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="adminhtml/store_switcher" name="store_switcher" before="-"></block>
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_edit_tabs" name="invitationstatus_tabs"></block>
+        </reference>
+        <reference name="head">
+            <action method="setCanLoadTinyMce">
+                <load>1</load>
+            </action>
+        </reference>
+        <reference name="js">
+            <block type="core/template" name="catalog.wysiwyg.js" template="catalog/wysiwyg/js.phtml"/>
+        </reference>
+    </adminhtml_eventsmanager_invitationstatus_edit>
+
+    <adminhtml_eventsmanager_event_catalog_product_events>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_catalog_product_edit_tab_event" name="product.edit.tab.event"/>
+            <block type="adminhtml/widget_grid_serializer" name="event_grid_serializer">
+                <reference name="event_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>product.edit.tab.event</grid_block_name>
+                        <data_callback>getSelectedEvents</data_callback>
+                        <hidden_input_name>events</hidden_input_name>
+                        <reload_param_name>product_events</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_eventsmanager_event_catalog_product_events>
+    <adminhtml_eventsmanager_event_catalog_product_eventsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_catalog_product_edit_tab_event" name="product.edit.tab.event"/>
+        </block>
+    </adminhtml_eventsmanager_event_catalog_product_eventsgrid>
+    <adminhtml_eventsmanager_event_products>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_event_edit_tab_product" name="event.edit.tab.product"/>
+            <block type="adminhtml/widget_grid_serializer" name="product_grid_serializer">
+                <reference name="product_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>event.edit.tab.product</grid_block_name>
+                        <data_callback>getSelectedProducts</data_callback>
+                        <hidden_input_name>products</hidden_input_name>
+                        <reload_param_name>event_products</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_eventsmanager_event_products>
+    <adminhtml_eventsmanager_event_productsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_event_edit_tab_product" name="event.edit.tab.product"/>
+        </block>
+    </adminhtml_eventsmanager_event_productsgrid>
+    <adminhtml_eventsmanager_event_attribute_index>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_event_attribute" name="attribute_grid"></block>
+        </reference>
+    </adminhtml_eventsmanager_event_attribute_index>
+    <adminhtml_eventsmanager_event_attribute_edit>
+        <reference name="left">
+            <block type="tpl_eventsmanager/adminhtml_event_attribute_edit_tabs" name="attribute_edit_tabs"></block>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_event_attribute_edit" name="attribute_edit_content"></block>
+        </reference>
+        <reference name="js">
+            <block type="adminhtml/template" name="attribute_edit_js" template="tpl_eventsmanager/attribute/js.phtml">
+                <action method="setMainEntityName">
+                    <name>event</name>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_eventsmanager_event_attribute_edit>
+    <adminhtml_eventsmanager_invitationstatus_attribute_index>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_attribute" name="attribute_grid"></block>
+        </reference>
+    </adminhtml_eventsmanager_invitationstatus_attribute_index>
+    <adminhtml_eventsmanager_invitationstatus_attribute_edit>
+        <reference name="left">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_attribute_edit_tabs" name="attribute_edit_tabs"></block>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_attribute_edit" name="attribute_edit_content"></block>
+        </reference>
+        <reference name="js">
+            <block type="adminhtml/template" name="attribute_edit_js" template="tpl_eventsmanager/attribute/js.phtml">
+                <action method="setMainEntityName">
+                    <name>invitationstatus</name>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_eventsmanager_invitationstatus_attribute_edit>
+    <adminhtml_eventsmanager_event_comment_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/event_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_event_comment" name="event_comment_grid"/>
+        </reference>
+    </adminhtml_eventsmanager_event_comment_index>
+    <adminhtml_eventsmanager_event_comment_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_event_comment_grid" name="event_comment_grid"/>
+        </block>
+    </adminhtml_eventsmanager_event_comment_grid>
+    <adminhtml_eventsmanager_event_comment_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/event_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_event_comment_edit" name="event_comment_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="tpl_eventsmanager/adminhtml_event_comment_edit_tabs" name="event_comment_tabs"></block>
+        </reference>
+    </adminhtml_eventsmanager_event_comment_edit>
+    <adminhtml_eventsmanager_invitationstatus_comment_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/invitationstatus_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_comment" name="invitationstatus_comment_grid"/>
+        </reference>
+    </adminhtml_eventsmanager_invitationstatus_comment_index>
+    <adminhtml_eventsmanager_invitationstatus_comment_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_comment_grid" name="invitationstatus_comment_grid"/>
+        </block>
+    </adminhtml_eventsmanager_invitationstatus_comment_grid>
+    <adminhtml_eventsmanager_invitationstatus_comment_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>tpl_eventsmanager/invitationstatus_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_comment_edit" name="invitationstatus_comment_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="tpl_eventsmanager/adminhtml_invitationstatus_comment_edit_tabs" name="invitationstatus_comment_tabs"></block>
+        </reference>
+    </adminhtml_eventsmanager_invitationstatus_comment_edit>
+</layout>

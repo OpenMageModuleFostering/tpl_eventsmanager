@@ -1,0 +1,60 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Invitation Status view template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+<?php $_invitationstatus = $this->getCurrentInvitationstatus(); ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="page-title invitationstatus-title">
+    <h1><?php echo $_invitationstatus->getEventName(); ?></h1>
+</div>
+<div class="invitationstatus-view">
+    <div class="invitationstatus-event_id">
+        <?php echo Mage::helper('tpl_eventsmanager')->__('Event Id'); ?>:<?php echo $_invitationstatus->getEventId(); ?>
+
+    </div>
+    <div class="invitationstatus-event_name">
+        <?php echo Mage::helper('tpl_eventsmanager')->__('Event Name'); ?>:<?php echo $_invitationstatus->getEventName(); ?>
+
+    </div>
+    <div class="invitationstatus-customer_name">
+        <?php echo Mage::helper('tpl_eventsmanager')->__('Customer Name'); ?>:<?php echo $_invitationstatus->getCustomerName(); ?>
+
+    </div>
+    <div class="invitationstatus-customer_email">
+        <?php echo Mage::helper('tpl_eventsmanager')->__('Customer Email'); ?>:<?php echo $_invitationstatus->getCustomerEmail(); ?>
+
+    </div>
+    <div class="invitationstatus-customer_address">
+        <?php echo Mage::helper('tpl_eventsmanager')->__('Customer Address'); ?>:<?php echo $_invitationstatus->getCustomerAddress(); ?>
+
+    </div>
+    <div class="invitationstatus-customer_contact_number">
+        <?php echo Mage::helper('tpl_eventsmanager')->__('Customer Contact Number'); ?>:<?php echo $_invitationstatus->getCustomerContactNumber(); ?>
+
+    </div>
+    <div class="invitationstatus-event_invitation_status">
+        <?php echo Mage::helper('tpl_eventsmanager')->__("Invitation Status"); ?>:<?php echo $_invitationstatus->getAttributeText('event_invitation_status'); ?>
+
+    </div>
+
+</div>

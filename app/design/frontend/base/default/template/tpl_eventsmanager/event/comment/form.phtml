@@ -1,0 +1,119 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event comments form template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+<?php
+$data = $this->getCommentData();
+if ($this->getEvent()) {
+    ?>
+<br/>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-add event-view-tile " style=" padding: 25px;margin-top: 20px;">
+        <h2><?php echo $this->__('Write Your Comment') ?></h2>
+        <?php if ($this->getAllowWriteCommentFlag()): ?>
+            <form action="<?php echo $this->getAction() ?>" method="post" id="comment-form">
+                <fieldset >
+                    <ul class="form-list">
+                        <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                            <li>
+                                <input type="hidden" name="name" id="name_field" class="input-text required-entry" value="<?php
+                                if ($this->escapeHtml($data->getName()) == "") {
+                                    echo 'Anonymous';
+                                } else {
+                                    echo $this->escapeHtml($data->getName());
+                                }
+                                ?>" />
+                            </li>
+                            <li>
+                                <input type="hidden" name="email" id="email_field" class="input-text required-entry validate-email" value="<?php echo $this->escapeHtml($data->getEmail()) ?>" />
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <label for="nickname_field" class="required"><em>*</em><?php echo $this->__('Nickname') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="name" id="name_field" class="i required-entry" value="<?php echo 'Anonymous'; ?>" required/>
+                                </div>
+                            </li>
+                            <li>
+                                <label for="email_field" class="required"><em>*</em><?php echo $this->__('E-mail') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="email" id="email_field" class="input-text required-entry validate-email" value="<?php echo $this->escapeHtml($data->getEmail()) ?>" required/>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+
+                        <li>
+                            <label for="title_field" class="required"><em>*</em><?php echo $this->__('Comment title') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="title" id="title_field" class=" required-entry" value="<?php echo $this->escapeHtml($data->getTitle()) ?>" required/>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="review_field" class="required"><em>*</em><?php echo $this->__('Comment') ?></label>
+                            <div class="input-box">
+                                <textarea name="comment" id="comment_field" cols="5" rows="3" class="required-entry" required><?php echo $this->escapeHtml($data->getComment()) ?></textarea>
+                            </div>
+                        </li>
+                        <?php if (Mage::getSingleton('customer/session')->isLoggedIn() && Mage::getStoreConfig('tpl_eventsmanager/customsettings/anonymous_comments', Mage::app()->getStore())): ?>
+                            <li>  
+                                <div class="input-box">
+                                    <input type="checkbox" name="anonymous" id="anonymous_field"  class="required-entry" onchange="anonymous_comment(event)" >&nbsp; Comment as Anonymous</input>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </fieldset>
+                <div class="buttons-set">
+                    <button type="submit" title="<?php echo $this->__('Submit Comment') ?>" class="button"><span><span><?php echo $this->__('Submit Comment') ?></span></span></button>
+                </div>
+            </form>
+            <script type="text/javascript">var commentForm = new VarienForm('comment-form');</script>
+        <?php else: ?>
+            <p class="review-nologged" id="comment-form">
+                <?php echo $this->__('Only registered users can write comments. Please, <a href="%s">log in</a> or <a href="%s">register</a>', $this->getLoginLink(), Mage::helper('customer')->getRegisterUrl()) ?>
+            </p>
+        <?php endif ?>
+    </div>
+    <?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+        <script>
+            var original_name;
+            var original_email;
+            function anonymous_comment(event) {
+                var checkbox = event.target;
+                if (checkbox.checked) {
+                    var name = document.getElementById('name_field');
+                    var email = document.getElementById('email_field');
+                    original_name = name.value;
+                    original_email = email.value;
+                    name.value = 'Anonymous';
+                    email.value = 'Anonymous';
+                } else {
+                    var name = document.getElementById('name_field');
+                    var email = document.getElementById('email_field');
+                    name.value = original_name;
+                    email.value = original_email;
+                }
+            }
+        </script>
+    <?php endif; ?>    
+    <?php
+}

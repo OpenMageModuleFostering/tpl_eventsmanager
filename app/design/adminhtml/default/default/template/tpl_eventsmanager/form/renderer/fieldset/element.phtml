@@ -1,0 +1,376 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+?>
+<?php $_element = $this->getElement() ?>
+<?php $this->checkFieldDisable() ?>
+
+<?php if ($_element->getType() == 'hidden'): ?>
+    <tr>
+        <td class="hidden" colspan="100"><?php echo trim($_element->getElementHtml()) ?></td>
+    </tr>
+<?php else: ?>
+    <tr>
+        <td class="label"><?php echo trim($this->getElementLabelHtml()) ?></td>
+        <td class="value">
+            <?php echo trim($this->getElementHtml()) ?>
+            <?php if ($_element->getNote()) : ?>
+                <p class="note"><?php echo $_element->getNote() ?></p>
+            <?php endif; ?>
+        </td>
+        <td class="scope-label"><span class="nobr"><?php echo $this->getScopeLabel() ?></span></td>
+        <?php if ($this->canDisplayUseDefault()): ?>
+            <td class="value use-default">
+                <input <?php if ($_element->getReadonly()): ?> disabled="disabled"<?php endif; ?> type="checkbox" name="use_default[]" id="<?php echo $_element->getHtmlId() ?>_default"<?php if ($this->usedDefault()): ?> checked="checked"<?php endif; ?> onclick="toggleValueElements(this, this.parentNode.parentNode)" value="<?php echo $this->getAttributeCode() ?>"/>
+                <label for="<?php echo $_element->getHtmlId() ?>_default" class="normal"><?php echo Mage::helper('tpl_eventsmanager')->__('Use Default Value') ?></label>
+            </td>
+        <?php endif; ?>
+    </tr>
+<?php endif; ?>
+
+
+<?php
+$event_model = Mage::getModel('tpl_eventsmanager/event');
+$event_levels = $event_model->getResource()->getAttribute("event_level");
+$event_types = $event_model->getResource()->getAttribute("event_type");
+?>
+
+<script>
+// Event Level related variables 
+    var event_level_object;
+    var group_id_object;
+    var user_email_object;
+
+//Event type related variables
+    var event_type_object;
+    var thumbnail_object;
+    var banner_object;
+    var product_launch_date_object;
+    var product_launch_time_object;
+    var address_object;
+    var city_object;
+    var state_object;
+    var country_object;
+    var contact_number_object;
+    var contact_email_object;
+    var pin_code_object;
+    var product_launch_date_trig_object;
+    var from_time_object;
+    var end_time_objetct;
+
+    var color_object;
+
+
+    var all_input_fields_in_body;
+
+    window.onload = function () {
+
+        // validation for time fields 
+        from_time_object = document.getElementById('from_time');
+        end_time_objetct = document.getElementById('end_time');
+        product_launch_time_object = document.getElementById('product_launch_time');
+        color_object = document.getElementById('color');
+        color_object.type='color';
+        
+        // dosent work so trying cssText
+        //color_object.style.width='100px !important';
+        color_object.style.cssText ="width: 120px !important;";
+        
+//from_time_object.pattern = end_time_objetct.pattern = '([01]?[0-9]|2[0-3]):[0-5][0-9]';
+        from_time_object.type = end_time_objetct.type = product_launch_time_object.type = 'time';
+        from_time_object.placeholder = end_time_objetct.placeholder = product_launch_time_object.placeholder = 'Eg: 01:00 AM';
+//   oninvalid="setCustomValidity('Plz enter on Alphabets ')"
+//    onchange=
+//   from_time_object.oninvalid = end_time_objetct.oninvalid = 'Plz enter on Alphabets ';
+//   from_time_object.onchange = end_time_objetct.onchange = "try{setCustomValidity('')}catch(e){}";
+
+
+
+        // Event Level related variables initialization
+        event_level_object = document.getElementById('event_level');
+        group_id_object = document.getElementById('group_id');
+        var old_group_value = group_id_object.value;
+
+<?php // get all groups
+$groups = Mage::getModel('customer/group')->getCollection();
+?>
+
+        group_id_object_parent = group_id_object.parentElement;
+
+        //<input id="group_id" name="event[group_id]" value="asdf" class="input-text" type="text" disabled="" style="background: none 0% 0% repeat scroll rgb(234, 231, 231);">
+        // remove existing group input element    
+        group_id_object_parent.removeChild(group_id_object);
+
+        // create new elemennt and and add it to page
+        var new_group_list = document.createElement("select");
+        new_group_list.id = "group_id";
+        new_group_list.name = "event[group_id]";
+        new_group_list.class = "select";
+        group_id_object_parent.appendChild(new_group_list);
+
+
+        //Create and append the options
+        var option;
+<?php foreach ($groups as $group): ?>
+            option = document.createElement("option");
+            option.value = '<?php echo $group->getId(); ?>';
+            option.text = '<?php echo $group->getCode(); ?>';
+            if (old_group_value == '<?php echo $group->getId(); ?>') {
+                option.selected = "selected";
+            }
+            new_group_list.appendChild(option);
+<?php endforeach; ?>
+
+
+        group_id_object = document.getElementById('group_id');
+        user_email_object = document.getElementById('user_email');
+
+        // Event Type related variables initialization
+        event_type_object = document.getElementById('event_type');
+        thumbnail_object = document.getElementById('thumbnail');
+        banner_object = document.getElementById('banner');
+        product_launch_date_object = document.getElementById('product_launch_date');
+        
+        address_object = document.getElementById('address');
+        city_object = document.getElementById('city');
+        state_object = document.getElementById('state');
+        country_object = document.getElementById('country');
+        contact_number_object = document.getElementById('contact_number');
+        contact_email_object = document.getElementById('contact_email');
+        pin_code_object = document.getElementById('pin_code');
+        product_launch_date_trig_object = document.getElementById('product_launch_date_trig');
+
+        all_input_fields_in_body = document.getElementsByTagName("input");
+
+        // trigger both on page load
+
+
+        on_event_level_select();
+        on_event_type_select();
+
+
+
+        event_level_object.onchange = function () {
+            on_event_level_select();
+        };
+        event_type_object.onchange = function () {
+            on_event_type_select();
+        };
+
+        //console.log(event_level_object);
+
+    };
+
+
+
+
+
+    function on_event_level_select()
+    {
+        switch (event_level_object.value) {
+            case '<?php echo $event_levels->getSource()->getOptionId('Global Event'); ?>':
+                handleglobalevent();
+
+                break;
+            case '<?php echo $event_levels->getSource()->getOptionId('Global Event ( Only visible Logged In Customers )'); ?>':
+                handleglobalcustomerevent();
+
+                break;
+            case '<?php echo $event_levels->getSource()->getOptionId('User Level Event'); ?>':
+                handleuserevents();
+
+                break;
+            case '<?php echo $event_levels->getSource()->getOptionId('Group Level Event'); ?>':
+                handlegroupevents();
+
+                break;
+
+            default:
+                console.log('in level default default');
+
+        }
+
+        //console.log(event_level_object.value);
+    }
+
+// Event Level Handles
+    function handleglobalevent()
+    {
+
+        group_id_object.disabled = 'disabled';
+        user_email_object.disabled = 'disabled';
+        togglecolors();
+        //console.log('15');
+    }
+
+    function handleglobalcustomerevent()
+    {
+        group_id_object.disabled = 'disabled';
+        user_email_object.disabled = 'disabled';
+        //console.log('16');
+        togglecolors();
+    }
+
+    function handleuserevents()
+    {
+        group_id_object.disabled = 'disabled';
+        user_email_object.removeAttribute("disabled");
+        //console.log('17');
+        togglecolors();
+    }
+
+    function handlegroupevents()
+    {
+        group_id_object.removeAttribute("disabled");
+        user_email_object.disabled = 'disabled';
+        //console.log('18');
+        togglecolors();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function on_event_type_select()
+    {
+        switch (event_type_object.value) {
+            case '<?php echo $event_types->getSource()->getOptionId('Sale Event'); ?>':
+                handlesalesevent();
+
+                break;
+            case '<?php echo $event_types->getSource()->getOptionId('Product Launch Event'); ?>':
+                handleproductlaunchevent();
+
+                break;
+            case '<?php echo $event_types->getSource()->getOptionId('Local Exhibition Event'); ?>':
+                handlelocalexibitionevent();
+
+                break;
+            case '<?php echo $event_types->getSource()->getOptionId('Notification Event'); ?>':
+                handlenotificationevent();
+
+                break;
+
+            default:
+                //console.log('in event type default');
+
+        }
+    }
+
+// Event Type Handels
+    function handlesalesevent()
+    {
+        thumbnail_object.removeAttribute("disabled");
+        banner_object.removeAttribute("disabled");
+
+        product_launch_date_object.disabled = 'disabled';
+        product_launch_date_trig_object.style.visibility = 'hidden';
+        product_launch_time_object.disabled = 'disabled';
+        address_object.disabled = 'disabled';
+        city_object.disabled = 'disabled';
+        state_object.disabled = 'disabled';
+        country_object.disabled = 'disabled';
+        contact_number_object.disabled = 'disabled';
+        contact_email_object.disabled = 'disabled';
+        pin_code_object.disabled = 'disabled';
+        //console.log('19');
+        togglecolors();
+    }
+
+    function handleproductlaunchevent()
+    {
+        product_launch_date_object.removeAttribute("disabled");
+        product_launch_date_trig_object.style.visibility = 'initial';
+        product_launch_time_object.removeAttribute("disabled");
+        thumbnail_object.removeAttribute("disabled");
+        banner_object.removeAttribute("disabled");
+
+        address_object.disabled = 'disabled';
+        city_object.disabled = 'disabled';
+        state_object.disabled = 'disabled';
+        country_object.disabled = 'disabled';
+        contact_number_object.disabled = 'disabled';
+        contact_email_object.disabled = 'disabled';
+        pin_code_object.disabled = 'disabled';
+        //console.log('20');
+        togglecolors();
+    }
+
+    function handlelocalexibitionevent()
+    {
+        thumbnail_object.removeAttribute("disabled");
+        banner_object.removeAttribute("disabled");
+        address_object.removeAttribute("disabled");
+        city_object.removeAttribute("disabled");
+        state_object.removeAttribute("disabled");
+        country_object.removeAttribute("disabled");
+        contact_number_object.removeAttribute("disabled");
+        contact_email_object.removeAttribute("disabled");
+        pin_code_object.removeAttribute("disabled");
+
+        product_launch_date_object.disabled = 'disabled';
+        //product_launch_date_object.style.background = "rgb(234, 231, 231) none repeat scroll 0% 0%"; 
+        product_launch_date_trig_object.style.visibility = 'initial';
+        product_launch_time_object.disabled = 'disabled';
+// product_launch_time_object.style.background = "rgb(234, 231, 231) none repeat scroll 0% 0%"; 
+        //console.log('21');
+        togglecolors();
+    }
+
+    function handlenotificationevent()
+    {
+//   thumbnail_object.disabled = 'disabled'; 
+//   banner_object.disabled = 'disabled';
+        address_object.disabled = 'disabled';
+        city_object.disabled = 'disabled';
+        state_object.disabled = 'disabled';
+        country_object.disabled = 'disabled';
+        contact_number_object.disabled = 'disabled';
+        contact_email_object.disabled = 'disabled';
+        pin_code_object.disabled = 'disabled';
+        togglecolors();
+        //console.log('22');
+    }
+
+
+// function for toggling colors of disabled fields
+    function togglecolors()
+    {
+        var len = all_input_fields_in_body.length;
+        for (i = 0; i < len; i++)
+        {
+            if (all_input_fields_in_body[i].hasAttribute("disabled")) {
+                all_input_fields_in_body[i].style.background = "rgb(234, 231, 231) none repeat scroll 0% 0%";
+
+            } else {
+                all_input_fields_in_body[i].style.background = "#fff";
+            }
+        }
+    }
+
+</script>

@@ -1,0 +1,52 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event view template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+<?php $_notification_events = $this->getEvents(); ?>
+<ul class="messages">
+    <li class="success-msg">
+        <ul>
+            <?php
+            foreach ($_notification_events as $event) {
+                $temp = array();
+                if (!empty(Mage::getSingleton('core/session')->getData('closedevents'))) {
+                    $temp = Mage::getSingleton('core/session')->getData('closedevents');
+                }
+                // not in
+                if (!in_array($event->getEntityId(), $temp)) {
+                    ?>
+
+                    <li>
+                        <span><?php
+                            echo $event->getEventName();
+                            ?></span>
+                        <span style="float: right;" ><a href="<?php echo $event->getEventUrl() ?>">View Detail</a>
+                            &nbsp;&nbsp; <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>index.php/tpl_eventsmanager/event/closenotification?eventid=<?php echo $event->getEntityId(); ?>"> X</a>
+                        </span>
+                    </li>
+                <?php } ?>
+
+            <?php } ?>
+        </ul>
+    </li>
+</ul>

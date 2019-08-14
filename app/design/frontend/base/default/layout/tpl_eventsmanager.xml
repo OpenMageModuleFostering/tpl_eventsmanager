@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/tpl_eventsmanager/monthly.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/tpl_eventsmanager/bootstrap/css/bootstrap.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>tpl_eventmanager/jquery.js</script>
+            </action>
+            <action method="addJs">
+                <script>tpl_eventmanager/monthly.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/event_notification" name="event_notification" template="tpl_eventsmanager/event/notification.phtml"/>
+        </reference>
+    </default>
+    
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="tpl_eventsmanager">
+                <name>event_comments</name>
+                <path>tpl_eventsmanager/event_customer_comment</path>
+                <label>Events Comments</label>
+            </action>
+            <action method="addLink" translate="label" module="tpl_eventsmanager">
+                <name>invitationstatus_comments</name>
+                <path>tpl_eventsmanager/invitationstatus_customer_comment</path>
+                <label>Invitations Status Comments</label>
+            </action>
+        </reference>
+    </customer_account>
+    <tpl_eventsmanager_event_index translate="label" module="tpl_eventsmanager">
+        
+        <label>Events list</label> 
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+        </reference>
+    
+        <update handle="page_two_columns_left" />
+        <reference name="content">
+            <block type="tpl_eventsmanager/event_list" name="event_list" template="tpl_eventsmanager/event/list.phtml" />
+        </reference>
+    </tpl_eventsmanager_event_index>
+    <tpl_eventsmanager_invitationstatus_index translate="label" module="tpl_eventsmanager">
+        <label>Invitations Status list</label>
+        <update handle="page_two_columns_left" />
+        <reference name="content">
+            <block type="tpl_eventsmanager/invitationstatus_list" name="invitationstatus_list" template="tpl_eventsmanager/invitationstatus/list.phtml" />
+        </reference>
+    </tpl_eventsmanager_invitationstatus_index>
+    <tpl_eventsmanager_event_view translate="label" module="tpl_eventsmanager">
+        <label>Event view page</label>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-right.phtml</template>
+            </action>
+        </reference>
+        
+        <update handle="page_two_columns_left" />
+        
+        <reference name="right">
+            <block type="tpl_eventsmanager/event_view" before="-" name="event_view_right" template="tpl_eventsmanager/event/viewright.phtml" />
+        </reference>
+        <reference name="content">
+            <block type="tpl_eventsmanager/event_view" name="event_view" template="tpl_eventsmanager/event/view.phtml" />
+            <!--    Commenting this because this functinality uis added to main product view block       
+            <block type="tpl_eventsmanager/event_catalog_product_list" name="event.info.products" as="event_products" template="tpl_eventsmanager/event/catalog/product/list.phtml" />-->
+            <block type="tpl_eventsmanager/event_comment_list" name="event.comments_list" as="event_comment_list" template="tpl_eventsmanager/event/comment/list.phtml">
+                <block type="tpl_eventsmanager/event_comment_form" name="comment_form" as="comment_form" template="tpl_eventsmanager/event/comment/form.phtml" />
+            </block>
+        </reference>
+        
+    </tpl_eventsmanager_event_view>
+    <tpl_eventsmanager_invitationstatus_view translate="label" module="tpl_eventsmanager">
+        <label>Invitation Status view page</label>
+        <update handle="page_two_columns_left" />
+        <reference name="content">
+            <block type="tpl_eventsmanager/invitationstatus_view" name="invitationstatus_view" template="tpl_eventsmanager/invitationstatus/view.phtml" />
+            <block type="tpl_eventsmanager/invitationstatus_comment_list" name="invitationstatus.comments_list" as="invitationstatus_comment_list" template="tpl_eventsmanager/invitationstatus/comment/list.phtml">
+                <block type="tpl_eventsmanager/invitationstatus_comment_form" name="comment_form" as="comment_form" template="tpl_eventsmanager/invitationstatus/comment/form.phtml" />
+            </block>
+        </reference>
+    </tpl_eventsmanager_invitationstatus_view>
+    <tpl_eventsmanager_event_rss translate="label" module="tpl_eventsmanager">
+        <label>Events rss feed</label>
+        <block type="tpl_eventsmanager/event_rss" output="toHtml" name="tpl_eventsmanager.event.rss" />
+    </tpl_eventsmanager_event_rss>
+    <tpl_eventsmanager_invitationstatus_rss translate="label" module="tpl_eventsmanager">
+        <label>Invitations Status rss feed</label>
+        <block type="tpl_eventsmanager/invitationstatus_rss" output="toHtml" name="tpl_eventsmanager.invitationstatus.rss" />
+    </tpl_eventsmanager_invitationstatus_rss>
+    <rss_index_index>
+        <reference name="content">
+            <block type="tpl_eventsmanager/rss" name="eventsmanager.rss" template="tpl_eventsmanager/rss.phtml">
+                <action method="addFeed" ifconfig="tpl_eventsmanager/event/rss" translate="label" module="tpl_eventsmanager">
+                    <label>Events</label>
+                    <url helper="tpl_eventsmanager/event/getRssUrl" />
+                </action>
+                <action method="addFeed" ifconfig="tpl_eventsmanager/invitationstatus/rss" translate="label" module="tpl_eventsmanager">
+                    <label>Invitations Status</label>
+                    <url helper="tpl_eventsmanager/invitationstatus/getRssUrl" />
+                </action>
+            </block>
+        </reference>
+    </rss_index_index>
+    <catalog_product_view>
+        <reference name="product.info">
+            <block type="tpl_eventsmanager/catalog_product_list_event" name="product.info.events" as="product_events" template="tpl_eventsmanager/catalog/product/list/event.phtml">
+                <action method="addToParentGroup">
+                    <group>detailed_info</group>
+                </action>
+                <action method="setTitle" translate="value" module="tpl_eventsmanager">
+                    <value>Events</value>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+    <tpl_eventsmanager_event_customer_comment_index translate="label" module="tpl_eventsmanager">
+        <label>My Events comments</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="tpl_eventsmanager/event_customer_comment_list" name="customer_event_comments" template="tpl_eventsmanager/event/customer/comment/list.phtml"/>
+        </reference>
+    </tpl_eventsmanager_event_customer_comment_index>
+    <tpl_eventsmanager_event_customer_comment_view translate="label" module="tpl_eventsmanager">
+        <label>My Events comment view</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="tpl_eventsmanager/event_customer_comment_view" name="customer_event_comment" template="tpl_eventsmanager/event/customer/comment/view.phtml"/>
+        </reference>
+    </tpl_eventsmanager_event_customer_comment_view>
+    <tpl_eventsmanager_invitationstatus_customer_comment_index translate="label" module="tpl_eventsmanager">
+        <label>My Invitations Status comments</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="tpl_eventsmanager/invitationstatus_customer_comment_list" name="customer_invitationstatus_comments" template="tpl_eventsmanager/invitationstatus/customer/comment/list.phtml"/>
+        </reference>
+    </tpl_eventsmanager_invitationstatus_customer_comment_index>
+    <tpl_eventsmanager_invitationstatus_customer_comment_view translate="label" module="tpl_eventsmanager">
+        <label>My Invitations Status comment view</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="tpl_eventsmanager/invitationstatus_customer_comment_view" name="customer_invitationstatus_comment" template="tpl_eventsmanager/invitationstatus/customer/comment/view.phtml"/>
+        </reference>
+    </tpl_eventsmanager_invitationstatus_customer_comment_view>
+</layout>

@@ -1,0 +1,47 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Invitation Status list template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_invitationsstatus = $this->getInvitationsstatus(); ?>
+<div class="page-title invitationstatus-title">
+    <?php if (Mage::helper('tpl_eventsmanager/invitationstatus')->isRssEnabled()) : ?>
+        <a href="<?php echo Mage::helper('tpl_eventsmanager/invitationstatus')->getRssUrl(); ?>" class="link-rss"><?php echo Mage::helper('tpl_eventsmanager')->__('Subscribe to RSS Feed') ?></a>
+    <?php endif; ?>
+    <h1><?php echo Mage::helper('tpl_eventsmanager')->__('Invitations Status') ?></h1>
+</div>
+<?php if ($_invitationsstatus->getSize() > 0) : ?>
+    <?php echo $this->getPagerHtml(); ?>
+    <div class="invitationstatus-list-container">
+        <?php foreach ($_invitationsstatus as $_invitationstatus) : ?>
+            <div class="invitationstatus-list-item">
+                <a href="<?php echo $_invitationstatus->getInvitationstatusUrl() ?>">
+                    <?php echo $_invitationstatus->getEventName(); ?>
+                </a><br />
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php echo $this->getPagerHtml(); ?>
+<?php else : ?>
+    <?php echo Mage::helper('tpl_eventsmanager')->__('There are no invitations status at this moment'); ?>
+<?php endif; ?>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<widgets>
+    <eventsmanager_event_view type="tpl_eventsmanager/event_widget_view" translate="name description" module="tpl_eventsmanager">
+        <name>Event Calendar</name>
+        <description>Event Calendar widget</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <event_id type="complex" translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Event</label>
+                <type>label</type>
+                <helper_block>
+                    <type>tpl_eventsmanager/adminhtml_event_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Event</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>120</sort_order>
+            </event_id>
+        </parameters>
+    </eventsmanager_event_view>
+    <eventsmanager_event_link type="tpl_eventsmanager/event_widget_link" translate="name description" module="tpl_eventsmanager">
+        <name>Events Listing</name>
+        <description>Events Listing widget</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <event_id type="complex" translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Event</label>
+                <type>label</type>
+                <helper_block>
+                    <type>tpl_eventsmanager/adminhtml_event_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Event</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>130</sort_order>
+            </event_id>
+        </parameters>
+    </eventsmanager_event_link>
+    <eventsmanager_event_banner type="tpl_eventsmanager/event_widget_banner" translate="name description" module="tpl_eventsmanager">
+        <name>Events Banner</name>
+        <description>Events Banner widget</description>
+        <is_email_compatible>0</is_email_compatible>
+        <parameters>
+            <event_id type="complex" translate="label">
+                <visible>1</visible>
+                <required>1</required>
+                <label>Event</label>
+                <type>label</type>
+                <helper_block>
+                    <type>tpl_eventsmanager/adminhtml_event_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Event</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>140</sort_order>
+            </event_id>
+        </parameters>
+    </eventsmanager_event_banner>
+</widgets>

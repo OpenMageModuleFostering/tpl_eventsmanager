@@ -1,0 +1,88 @@
+<?php
+/**
+ * Tpl_EventsManager extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Tpl
+ * @package        Tpl_EventsManager
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event list template
+ *
+ * @category    Tpl
+ * @package     Tpl_EventsManager
+ * @author      TPL
+ */
+?>
+
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_events = $this->getEvents(); ?>
+<div class="page-title event-title">
+    <?php if (Mage::helper('tpl_eventsmanager/event')->isRssEnabled()) : ?>
+        <a href="<?php echo Mage::helper('tpl_eventsmanager/event')->getRssUrl(); ?>" class="link-rss"><?php echo Mage::helper('tpl_eventsmanager')->__('Subscribe to RSS Feed') ?></a>
+    <?php endif; ?>
+    <h1><?php echo Mage::helper('tpl_eventsmanager')->__('Events') ?></h1>
+</div>
+<?php if ($_events->getSize() > 0) : ?>
+    <?php echo $this->getPagerHtml(); ?>
+
+    <div class="row">
+        <?php foreach ($_events as $_event) : ?>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-bottom: 20px;">
+
+                <div class="col-xs-5 col-sm-3 col-md-2 col-lg-2">            
+                    <a href="<?php echo $_event->getEventUrl() ?>">
+                        <?php if ($_event->getThumbnail() == "") { ?>
+                            <img width="110px" height="100px"  class="event-thumbnail" src="<?php echo Mage::getBaseUrl('skin') . "frontend/base/default/images/tpl_eventsmanager/no-image-available.png"; ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+                        <?php } else { ?>
+                            <img width="110px" height="100px" class="event-thumbnail" src="<?php echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail'); ?>" alt="<?php echo $this->escapeHtml($_event->getEventName()); ?>" />
+                        <?php } ?>
+
+                </div>
+        <!--                    <img class="event-thumbnail" src="<?php //echo Mage::helper('tpl_eventsmanager/event_image')->init($_event, 'thumbnail')->resize(100, 100);  ?>" alt="<?php //echo $_event->getEventName()//echo $this->escapeHtml($_event->getEventName());  ?>" />-->
+        <!--                     <img src="<?php
+                        // echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).
+                        $_event->getEventUrl()
+                        ?>" class="event-thumnail"/>-->
+                <div class="col-xs-7 col-sm-8 col-md-10 col-lg-10">
+                    <div style="height:15px; width: 15px; background: <?php echo $_event->getColor(); ?>;float:right;" title="Event Color Code"></div>
+                    <strong><?php echo $_event->getEventName(); ?></strong>
+                    </a>
+                    <br/>
+                    <div class=" col-xs-12  col-sm-12 col-md-10 col-lg-10" style="padding: 5px;"> 
+                        <img style="float: left; margin-right: 8px; margin-top:3px; " height="15" width="15"   src="<?php echo Mage::getBaseUrl('skin') . 'frontend/base/default/images/tpl_eventsmanager/calendar-icon.png'; ?> " />
+                        <?php echo date('d F Y', strtotime($_event->getFromDate())) . ' (' . $_event->getFromTime() . ')'; ?>&nbsp; - &nbsp;<?php echo date('d F Y', strtotime($_event->getEndDate())) . ' (' . $_event->getEndTime() . ')'; ?>
+
+                    </div>
+        <!--                <span>( <?php //echo $_event->getAttributeText('event_type');  ?> )</span>-->
+
+                    <div class=" hidden-xs  col-sm-12 col-md-10 col-lg-10">        
+                        <div class="event-list-event-short-desc" style="text-align:justify;"><p>
+                                <?php echo strip_tags(substr($_event->getDescription(), 0, 200)); ?>...
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding: 5px;">    
+
+                        <a href="<?php echo $_event->getEventUrl() ?>"><button class="button">
+                                <span>View Detail</span></button></a>
+
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php echo $this->getPagerHtml(); ?>
+<?php else : ?>
+    <?php echo Mage::helper('tpl_eventsmanager')->__('There are no events at this moment'); ?>
+<?php endif; ?>
