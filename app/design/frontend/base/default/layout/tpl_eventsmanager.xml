@@ -22,16 +22,13 @@
             <action method="addCss">
                 <stylesheet>css/tpl_eventsmanager/monthly.css</stylesheet>
             </action>
-            <!--            <action method="addCss">
-                <stylesheet>css/tpl_eventsmanager/bootstrap/css/bootstrap.css</stylesheet>
-            </action>-->
-            <!--  First check if there exist bootstrap -->
+           <!-- bootstrap block   First check if there exist bootstrap -->
             <action method="addCss">
                 <file helper="tpl_eventsmanager/data/checkBootstrapExist" />
                 <!-- i.e. Mage::helper('module/helper')->getJsBasedOnConfig() -->
             </action>
-            
-            
+            <!-- bootstrap block -->
+
             <action method="addJs">
                 <script>tpl_eventmanager/jquery.js</script>
             </action>

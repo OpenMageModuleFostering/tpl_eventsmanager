@@ -22,7 +22,9 @@
  * @author      TPL
  */
 ?>
-<?php $_notification_events = $this->getEvents(); ?>
+<?php $_notification_events = $this->getEvents();
+if(count($_notification_events) && count(Mage::getSingleton('core/session')->getData('closedevents'))!=count($_notification_events)):
+?>
 <ul class="messages">
     <li class="success-msg">
         <ul>
@@ -50,3 +52,4 @@
         </ul>
     </li>
 </ul>
+<?php endif;?>
