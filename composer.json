@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Tpl_EventsManager",
+    "name": "OpenMageModuleFostering\/Tpl_EventsManager",
     "type": "magento-module",
     "license": "The-MIT-License-(MIT)",
     "homepage": "",
     "description": "Simple and handy Magento Extension for creating and managing events.",
     "authors": [
-    {
-        "name": "TechPrimeLab Software Pvt. Ltd",
-        "email": "ecommerce@techprimelab.com"
-    }
-],
+        {
+            "name": "TechPrimeLab Software Pvt. Ltd",
+            "email": "ecommerce@techprimelab.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
